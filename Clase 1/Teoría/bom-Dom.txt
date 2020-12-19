@@ -1,0 +1,86 @@
+BOM-DOM
+
+el bom es la manera en que el javascript representa las paginas web en formato json.
+
+
+console​.log(​ "Soy Global!"​ )
+//Nunca decimos
+window​.console.log(​ "Yo tambien soy global!"​ )
+
+no es necesario porque window es global, si decimos console.log, es claro que estamos hablando del window.
+
+todo lo que escribimos, toda las declaraciones todo de variables van a ir a parar a window, por ejemplo
+
+var​ a = ​ true
+console​.log(a)​ //true
+console​.log(​window​.a)​ //true 
+
+claramente la variable a fue declarada sobre window, eso se puede ver con la impresión.
+
+algunas propiedades de window, que se usan para el frontend.
+
+
+// Alto del documento abierto
+
+window​.innerHeight ​ 
+
+// Ancho del documento abierto
+//Los inner* no toman en cuenta la consola de desarrollo, barras de scroll, 
+//barra de navegación, etc. habla esclusivamente del cuadrado blanco
+//como en HTML.
+
+window​.innerWidth ​ 
+
+//Los outer* toman en cuenta absolutamente todo en el
+navegador
+
+// Alto de todo el navegador
+
+window​.outerHeight ​
+
+// Ancho de todo el navegador
+
+window​.outerWidth ​ 
+
+
+window​.location.href ​ // Variable que controla la
+direccion de la barra de navegacion dentro de la pc, o en el servidor que está.
+
+window​.console ​ // Objeto interfaz de la API Console. En
+el tenemos la popular función log
+
+window​.alert ​ // Para notificaciones de alerta
+
+window​.confirm ​ // Para ventanas de confirmación
+
+window​.prompt ​ // Para ventanas de ingreso de texto
+
+window​.history ​ // Para revisar el estado de historial de
+navegación del cliente
+
+window​.document ​ // Para acceder a información relativa
+del documento abierto 
+
+DOM
+
+El dom es el document dentro de window, lo caracteristico es que el dom no es global, pero esta adentro 
+de window que si lo es, además el dom es la representacion en json de el html, al document le podemos
+agregar o modificar su html, agregarle nuevas etiquetas y demas.
+
+crea un h1, en el document y lo guarda en una variable h1.
+
+let​ h1 = ​ document​.createElement(​ "h1"​ )
+
+//Obtiene un elemento segun su id en el html
+document​.getElementById(id);
+
+//Obtiene un elemento del html segun su nombre de clase.
+document​.getElementsByClassName(names);
+
+//Obtiene un elemento del html segun el tag.
+Element.getElementsByTagName(name);
+
+selectores es una cadena de caracteres que contiene uno o más selectores CSS separados por coma.
+
+Element.querySelector(selectores​ 8​ );
+Element.querySelectorAll(selectores);

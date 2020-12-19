@@ -1,0 +1,47 @@
+DECLARACIÓN DE VARIABLES
+
+USANDO VAR
+
+    todas las variables declaradas con var:
+
+        admiten redefinicion: puedo cambiarles el valor cuando quiera.
+ 
+        admite redeclaracion: puedo declarar 10 variables con el mismo nombre.
+
+        son globales siempre, sin importar si estan adentro de corchetes.
+        excepto en el caso de funciones.
+
+USANDO LET
+
+    se comportan como en un lenguaje común de programación orientada a objetos
+
+    no admiten redeclaracion, es decir si declare una variable con nombre a,
+    ya no puedo crear otra con el mismo nombre.
+
+    admiten redefinicion.
+
+    no tienen alcance global, si tengo un 
+
+        while{
+            let a
+        }
+        console.log(a) //TIRA ERROR
+
+    es decir los corchetes importan.
+
+USANDO CONST
+
+     se declaran las tipicas constantes, es lo mismo que let, nada mas
+     que no se pueden redefinir, una vez definido su valor 
+     por primera vez, no se lo puede cambiar nunca mas.
+
+    admiten redefinicion de componentes internos, es decir
+    si creo un objeto constante 
+    
+     const​ obj = {
+        x ​ : ​ 1 ​ ,
+        y ​ : ​ 2
+    }
+    obj.x = ​ 10​ ​ // {x:10,y:2} 
+
+    se pueden redefinir sus componentes internos.

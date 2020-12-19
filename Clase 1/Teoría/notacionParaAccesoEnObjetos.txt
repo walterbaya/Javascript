@@ -1,0 +1,29 @@
+NOTACION PARA ACCESO EN OBJETOS
+
+USAR CORCHETES
+
+    si tengo un objeto cualquiera obj, puede acceder a un elemento 
+    dentro de el, haciendo  obj[nombre-Clave]
+
+    por ejemplo:
+
+    const​ obj = {​ x ​ : ​ 1 ​ , ​ y ​ : ​ 2 ​ , ​ 0 ​ : ​ true​ }  
+ 
+    Índice Number : Puedo ingresar a un elemento usando obj[0]  
+    obj[​ 0 ​ ] ​ //true 
+ 
+    Indice String : ​ Puedo ingresar a un elemento usando obj[“x”]  
+    obj[​ "x"​ ] ​ //1 
+ 
+    Índice variable : ​ Puedo ingresar a un elemento usando una variable  
+    const​ indice = ​ "x"
+    obj[indice]​ //1 
+
+USAR PUNTO
+
+    get = objeto.propiedad;
+    objeto.propiedad = set;
+    la propiedad debe ser un identificador válido de JavaScript, 
+    o sea una secuencia alfanumérica de caracteres, 
+    que no puede comenzar por un número.
+    nPor ejemplo, objeto.$1 es válido, mientras que objeto.1 no lo es.

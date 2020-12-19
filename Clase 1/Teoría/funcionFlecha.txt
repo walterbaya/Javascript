@@ -1,0 +1,14 @@
+FUNCIONES FLECHA  
+
+//Se declara una función de la forma tradicional
+
+var​ foo = ​ function​ (){
+    console​ .log(​ "Foo!"​ )
+}
+
+//Se declara la misma función pero siguiendo la forma de flecha  
+
+var​ foo = () => { ​ console​ .log (​ "Foo!"​ ) }
+
+//simplemente se declara la funcion luego se ponen sus variables entre parentesis y flecha 
+//cuerpo de la funcion

@@ -1,0 +1,65 @@
+EDICION DE NODOS   
+
+Cada nodo, desde document en adelante, va a ser una referencia de alguna etiqueta de 
+HTML y por consiguiente, los atributos de HTML se ven reflejados como las propiedades de 
+cada nodo cada vez que seleccionamos o creamos uno nuevo; sino podemos encontrar dichos atributos
+dentro de cada nodo en el .attributes del mismo. 
+
+La mayoría de los atributos de HTML se inicializan en cada nodo con el 
+mismo nombre aunque algunos tienen un nombre distinto por cuestiones de nombres 
+reservados. Entonces si quisiera modificar el atributo ID de HTML de algún nodo podría : 
+let​ h1 = ​ document​ .createElement(​ "h1"​ )
+h1.id = ​ "titulo"
+console​ .log(h1) ​ // <h1 id="titulo"></h1> 
+ 
+Hay propiedades que nos presentan alguna complejidad extra a veces . Podríamos 
+mencionar la de el atributo CLASS y DATA-* . Si uno quisiera manipular las clases de una 
+etiqueta de HTML tendría que usar la propiedad ​ .className​ la cual guarda un string con el o 
+las clases registradas que tenga esa etiqueta hasta ese momento. Por lo tanto, agregar o 
+remover clases se volvería una tarea demasiado tediosa para realizar a mano. Por lo que 
+Javascript nos brinda facilidades como por ejemplo : 
+h1.classList.add(​ "clase1"​ )
+h1.classList.remove(​ "clase1"​ )
+h1.classList.toggle(​ "clase1"​ )  
+
+de esta manera se guardan las clases de otra manera, en un lista, en la cual es mas facil agregar,
+remover.
+ 
+De esta forma tenemos una manera más conveniente de manipular clases. De esta misma 
+forma también podemos observar el caso de los atributos data : 
+<​ h1​ ​ data-type​ = ​ "title"​ >Titulo</​ h1​ >  
+let​ h1 = ​ document​ .createElement(​ "h1"​ )
+console​ .log(h1.dataset)
+h1.dataset.type = ​ "nuevoTipo" 
+ 
+Para poder manipular este tipo de atributos también tenemos una interfaz JSON más 
+funcional. 
+Agregar / Remover Nodos del DOM 
+Cada nodo por si solo tiene la habilidad de incorporar y remover nodos de su propio interior, 
+es decir que todos van a tener un método que corresponde a cada operación : 
+element.appendChild(Child);
+ 
+Este método nos permite agregar un nodo cualquiera dentro de otro que hayamos 
+seleccionado previamente. Por ejemplo, si quisiéramos agregar una nueva etiqueta que 
+creamos a una que ya teníamos escrita en HTML podríamos hacer lo siguiente :  
+En el HTML tendría una etiqueta con las siguientes características : 
+<​ div​ ​ id​ = ​ "cont"​ ></​ div​ >  
+ 
+Y luego en mi script : 
+ 
+const​ cont = ​ document​ .getElementById(​ "cont"​ )
+const​ p = ​ document​ .createElement(​ "p"​ )
+p.innerText = ​ "Lorem Ipsum"
+cont.appendChild(p)  //le termna metiendo el parrafo con el lorem ipsum al div
+ 
+Si tuviera que agregar muchos elementos al mismo tiempo solo puedo hacerlos uno por 
+uno, no admite ingreso de múltiples nodos en simultáneo. Por otro lado si quisiera remover un nodo existente podría realizar algo como esto en el 
+HTML : 
+<​ div​ ​ id​ = ​ "cont"​ >
+<​ p ​ >lorem ipsum</​ p ​ >
+</​ div​ >  
+ 
+Y algo como esto en el script : 
+const​ p = ​ document​.querySelector(​ "p"​ ) //devuelve en este caso el parrafo, el primer parrafo en nodo.
+const​ parent = p.parentNode  //obtiene el nodo padre del nodo p.
+parent.removeChild(p) 

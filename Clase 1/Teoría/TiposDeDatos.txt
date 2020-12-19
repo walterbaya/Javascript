@@ -1,0 +1,25 @@
+TIPOS PRIMITIVOS
+
+    Boolean​ : true y false.
+    
+    null :​ Una palabra clave especial que denota un valor null. Como JavaScript 
+    es case-sensitive, null no es lo mismo que null, NULL, o cualquier otra 
+    variante.
+    
+    Undefined​ : Una propiedad de alto nivel cuyo valor no es definido.
+    
+    Number​ : 42 o 3.14159.
+    
+    String​ : "Hola" , ‘hola’, `hola`
+    
+    Symbol​ ​ (nuevo en ECMAScript 6).
+
+OBJECT
+
+    Object : ​ { indice : valor } Son matrices ordenadas de manera asociativa de un 
+    valor con un índice. 
+
+    Array : [ ​ valor ] Son matrices ordenadas de manera secuencial numérica 
+    ascendente. 
+
+    Function : Son objetos con la habilidad de poder ser ejecutados. 
