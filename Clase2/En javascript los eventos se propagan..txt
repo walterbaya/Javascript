@@ -1,0 +1,37 @@
+si tengo tres divs metidos uno dentro de otro entonces si se ejecuta el evento de la
+caja 3 luego el de la 2 y luego el de la 1.
+Se puede evitar la propagacion hacia los padres.
+
+la manera de hacer es:
+
+e.stopPropagation();
+
+si yo le hago click a la caja3 entonces no volvera a la caja 2 y a la 1 la propagacion
+
+El e target hace referencia a el elemento el cual inicializo el evento.
+
+mediante e.target tenemos la referencia especifica del elemento al cual se le aplico el evento.
+
+DELEGACION, es justamente esto de ahorrar addEventListener poniendole al padre de todos. 
+
+
+FRAGMENTOS: 
+
+tengo un <ul></ul> vacio
+en el js tenemos un
+
+const paises = {"argentina", "brasil", "colombia"};
+
+let frag = document.createDocumentFragment();
+paises.forEach(pais => {
+	let li = document.createElement("li");
+	li.textContent = pais;
+	//al hacer esto le decimos al navegador que modifique el HTML y eso es una tarea costosa.
+	//NUNCA PONER APPENDCHILD de elementos que existan en el DOM en los  forEach o bucle cualquiera.
+	//salvo en el caso en que lo haga con agregarle elementos nuevos ul.appendChild(li);
+	frag.appendiChild(li); //el fragmento transpasa sus hijos y luego se destruye.
+			       //de esa manera obtenemos lo mismo pero con una construccion eficiente.
+
+});
+
+//Un fragmento es un documento HTML pero que no se puede agregar al DOM, ya que no existe.

@@ -1,0 +1,52 @@
+Recordar que Javascript es debilmente tipado.
+
+tenemos variables y objetos no mas que eso.
+
+tenemos objects, arrays y funciones.
+ 
+y variables.
+
+Los objetos son una agrupación de propiedades, claves y valor, son datos complejos,
+tienen varios valores inclusive de distinto tipo.
+
+Notación por defecto, la de punto que se va a usar todo lo que se pueda.
+Notación de corchetes, se usa solo para casos dinámicos, donde no sabemos que propiedad 
+vamos a querer modificar en el momento.
+
+nombrevariable.nombrePropiedad y obtenemos el valor de la propiedad peida que tiene el
+objeto.
+
+Objeto HTML -> Head 
+	    -> Body y sus hijos
+
+todos los objetos estos se generan cuando cargamos un HTML.
+
+Todos los objetos se crean con sus propiedades basadas en el HTML.
+Los atributos se corresponden con las propiedades de los objetos de 
+Javascript.
+
+Si modificamos los objetos esas modificaciones se veran en pantalla.
+
+Objetos importantes.
+
+
+Window: representa al navegador, a las pestañas o ventana del navegador.
+a cada pestaña representaría Window.
+
+en Window podemos encontrar por ejemplo propiedades de visualizacion a la pagina,
+acceso a funcionalidades como botones que hay en el navegador.
+o la barra de navegacion.
+
+Document:
+
+Representa a todo el documento HTML, es el padre principal de todo el arbol de objetos
+que tenemos en la página.
+
+Lograr renderizar la pantalla es costoso mantenerlo, redibujarlo, por ejemplo cuando 
+nosotros hacemos una modificacion, si haces una modificacion de un elemento, es necesario
+quizas desencadenar la modificacion de varios elementos, por ejemplo si un div contiene
+un p, y modifico el p ocurre directamente que si cambia el tamaño de p hay que modificar
+el del div y asi... esto es costoso!.
+
+Funciones query selector y query selector all.
+
