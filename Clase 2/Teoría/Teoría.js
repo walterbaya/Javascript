@@ -87,7 +87,8 @@ boton.addEventListener("click", function() {
 
 */
 
-boton = document.getElementById("crear");
+const boton = document.getElementById("crear");
+
 boton.addEventListener("click", function() {
     var btn_dinamico = document.createElement("button");
     btn_dinamico.id = "dinamico";
