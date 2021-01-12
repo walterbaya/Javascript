@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Básico</title>
+</head>
+
+<body>
+    <ul>
+
+    </ul>
+
+    <form id="frmBase" action="./procesar.php" method="GET">
+        <label>
+            <!--TextNode-->
+            Email
+            <input type="text" name="email">
+        </label>
+        <label>
+            Clave
+            <input type="text" name="clave">
+        </label>
+        <!--Todo boton en un formulario será submit por defecto.-->
+        <button>Enviar</button>
+    </form>
+    <script src="app1.js"></script>
+</body>
+<!--queryString pasar datos en la peticion (request)
+
+la peticion de procesamiento (submit) envio de la informacion del formulario al servidor
+
+el archivo lo busca en el action y ademas hay que agregar el queryString
+
+pone un signo de pregunta y se va quedando con los inputs que tenga el atributo name y pone justamente lo qeu dice dicho atributo.
+
+ES INDISPENSABLE EL NAME, SIN EL MISMO NO SE ENVIAN LOS DATOS DEL UN FORMULARIO DETERMINADO.
+
+las validaciones se hacen del lado del cliente y del lado del servidor, las que hacemos del lado del backend, la idea es evitar problemas de seguridad, no generar usuarios incorrectos con mails falsos y eso, es necesario verificar que todo lo que llega sea correcto, el lado del backend se ocupa de la seguridad, la validacion de javascript busca evitar que el usuario envié información erronea, avisando cuales son los campos que no estan correctamente completados, la idea es guiar al usuario, para que tengas una mejor experiencia de llenado de usuario.-->
+
+</html>
