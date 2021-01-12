@@ -218,10 +218,12 @@
             let nombre = elem.lastElementChild;
             nombre.addEventListener("focus", (e => {
                 label.classList.add("subir")
+                elem.classList.add("animacionBorde")
             }))
             nombre.addEventListener("blur", (e => {
                 if (e.target.value == "") {
                     label.classList.remove("subir")
+                    elem.classList.remove("animacionBorde")
                 }
             }))
         })
