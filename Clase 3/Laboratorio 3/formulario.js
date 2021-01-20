@@ -70,7 +70,7 @@ let validateNames = (e, l) => {
     }
 }
 
-
+/*
 //Continuando con una extension del formulario de la clase pasada, esta vez ademas de animarlo vamos a intentar validarlo
 //1)Asignarle un evento de blur a cada input del formulario de manera tal que se cumplan las siguientes validaciones sin usar expresiones regulares :
 
@@ -189,8 +189,10 @@ let valorMensaje;
 mensaje.addEventListener("blur", e => {
 
     if (e.target.value == "") {
-
+        alert("El mensaje debe tener al menos una letra");
+        e.target.setCustomValidity("El mensaje debe tener al menos una letra");
     } else {
+        e.target.setCustomValidity("");
         valorMensaje = escape(e.target.value);
     }
 });
@@ -203,27 +205,129 @@ mensaje.addEventListener("blur", e => {
 
 //2)Si no cumplieran con lo requerido, los mismos deberán mostrar un mensaje de error customizado utilizando la API de validación de HTML5 que le corresponda en cada caso. El elemento deberá además tener la clase error. 
 //3)Si cumplieran con lo requerido deberán tener la clase success.
+
 //4)Realizar las mismas operaciones pero esta vez dentro de un evento submit que deberá estar registrado en el formulario.
 
-submit.addEventListener("submit", e => {
-    //cracion de un evento blur y su lanzamiento 
-    const event = new Event("blur");
-    nombre.dispatchEvent(event);
-    apellido.dispatchEvent(event);
-    password.dispatchEvent(event);
-
-});
-
-
-
-
-
-
-
-
-
-
-
+*/
 
 //BONUS :
 //5)Realizar las mismas validaciones usando RegExp.
+
+//1 VER
+
+nombre.addEventListener("blur", e => {
+    let n = e.target;
+    let re = /^\w{2,}(\s+\w{2,})?$/;
+    if (re.test(n.value)) {
+        n.className = "success";
+        n.setCustomValidity("");
+    } else {
+        n.className = "error";
+        n.setCustomValidity("El nombre debe ser de la forma primerNombre SegundoNombre, con el segundoNombre opcional y ambos deben tener dos letras como mínimo.");
+        alert("El nombre debe ser de la forma primerNombre SegundoNombre, con el segundoNombre opcional y ambos deben tener dos letras como mínimo.");
+
+    }
+});
+
+//2
+apellido.addEventListener("blur", e => {
+    let n = e.target;
+    let re = /^\w{4,}(\s+\w{4,})?$/;
+    if (re.test(n.value)) {
+        n.className = "success";
+        n.setCustomValidity("");
+    } else {
+        n.className = "error";
+        n.setCustomValidity("El Apellido debe ser de la forma Apellido SegundoApellido, con el segundoApellido opcional y ambos deben tener cuatro letras como mínimo.");
+        alert("El Apellido debe ser de la forma primerApellido SegundoApellido, con el segundoApellidoopcional y ambos deben tener cuatro letras como mínimo.");
+    }
+});
+//3
+
+email.addEventListener("blur", e => {
+    let n = e.target;
+    let exp = /^\w+(@)\w+\.(com)$/
+    if (exp.test(n.value)) {
+        n.className = "success";
+        n.setCustomValidity("");
+    } else {
+        alert("Error, el mail debe seguir el siguiente formato nombre@dominio.com y no debe contener espacios delante ni detras.");
+        n.setCustomValidity("Error, el mail debe seguir el siguiente formato nombre@dominio.com y no debe contener espacios delante ni detras.");
+        n.className = "error";
+    }
+});
+//4
+
+reemail.addEventListener("blur", e => {
+    let n = e.target;
+    if (n.value == email.value) {
+        n.className = "success";
+        n.setCustomValidity("");
+    } else {
+        alert("Error, el remail debe ser igual al email.");
+        n.setCustomValidity("Error, el remail debe ser igual al email.");
+        n.className = "error";
+    }
+});
+
+//5
+
+//La contraseña debe tener como mínimo 6 letras sin espacios y los caracteres especiales que se pueden usar son ?!_-
+
+password.addEventListener("blur", e => {
+    let reg = /^[a-z?!_-]{6,}$/;
+    if (reg.test(e.target.value)) {
+        n.className = "success";
+        n.setCustomValidity("");
+    } else {
+        alert("Error");
+        n.setCustomValidity("Error, La contraseña debe tener como mínimo 6 letras sin espacios y los caracteres especiales que se pueden usar son ?!_-");
+        n.className = "error";
+    }
+});
+
+//6
+
+titulo.addEventListener("blur", e => {
+    let reg = /\w+/;
+    if (reg.test(e.target.value)) {
+
+    } else {
+        e.target.parentNode.children[0].classList.add("subir");
+        e.target.parentNode.classList.add("animacionBorde");
+        e.target.value = "Post Anonimo";
+    }
+});
+
+//7
+
+mensaje.addEventListener("blur", e => {
+        let reg = /\w+/;
+        if (reg.test(e.target.value)) {
+            e.target.setCustomValidity("");
+            valorMensaje = escape(e.target.value);
+        } else {
+            alert("El mensaje debe tener al menos una letra");
+            e.target.setCustomValidity("El mensaje debe tener al menos una letra");
+        }
+    })
+    //1.7)mensaje : El mensaje debe tener como mínimo una letra. Puede ser cualquier caracter siempre y cuando el mismo no se imprima en pantalla sin ser escapado, de lo contrario podríamos tener un ataque XSS.
+
+
+
+
+
+
+
+
+
+submit.addEventListener("submit", e => {
+    //cracion de un evento blur y su lanzamiento
+    e.preventDefault();
+    //despacho los eventos para que si hay algun error directamente se encarguen ellos.
+    const event = new Event("blur");
+    inputs.forEach(elem => {
+        elem.dispatchEvent(event);
+    });
+
+});
