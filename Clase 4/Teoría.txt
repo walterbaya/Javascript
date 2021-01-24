@@ -1,0 +1,55 @@
+Ajax nos permite hacer peticiones a navegadores que no son en el nuestro, entonces lo que
+pasa es que el navegador mismo nos prohibe dicha petición.
+Single Page Application SPA, solo pide el index y luego por medio de peticiones Ajax va generando
+todas las peticiones.
+
+usuario.json o txt.
+por ahora lo llamamos 
+
+usuario.txt
+
+JSON es un formato creado para representar objetos de javascript represables para otros lenguajes
+escribimos los objetos con la misma idea que en javascript.
+
+{
+	"id" : 1,
+	"name" : "Leanne Graham",	
+}
+
+//Todas las propiedades deben tener COMILLA DOBLE solamente.
+//clave: valor, clave2: valor2, ...
+//Los únicos valores permitidos son números, cadenas, el null, booleanos, objetos y Arrays.
+//No podemos utilizar funciones.
+//Si tenemos un objeto que tiene funciones no podemos guardar eso en un json.
+
+JSON ONLINE EDITOR.ORG
+
+dentro de ajax response siempre obtenemos texto plano, necesitamos convertirlo
+en un objeto javascript utilizamos entonces la funcion
+
+JSON.parse(//cadena de caracteres o lo que sea)  //devuelve un objeto
+
+por ejemplo:
+
+const user = JSON.parse(ajax.response);
+
+console.log(user);
+
+document.getElementById("caja").textContent = user.name;
+
+//Ahora si va a imprimir el nombre, no la cadena, sino el nombre
+//Los JSON son cadenas, lo que hay que hacer es parsear, usando JSON
+//si los textos son convertirbles en JSON se los llama cadenas JSON
+//Usando JSON parse una cadena JSON se puede transformar en un cadena javascript.
+
+const cadena = JSON.stringify(user);
+
+//Con este mecanismo transforma un objeto JSON a una cadena.
+
+console.log(cadena);
+
+//La cadena generada es una unica linea de codigo.
+
+//Los elementos post son para tener mas seguridad, no se pueden ver a traves
+//del navegador.
+//Mongo db trabaja con formato JSON y lo mismo 
