@@ -1,0 +1,9 @@
+#contenedor {
+    border: 1px dashed green;
+    min-height: 300px;
+}
+
+#navegacion {
+    background-color: orange;
+    padding: 2em;
+}

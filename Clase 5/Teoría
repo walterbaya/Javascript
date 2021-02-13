@@ -1,0 +1,27 @@
+Los eventos tambien forman parte de la web api, en realidad
+lo que hace se cada vez que ocurre un evento le pasa esa
+tarea a la cola.
+
+El objecto XMLHttpRequest lo que permite es tener 
+una especie de proceso que iba a hacer las péticiones
+y recibir las respuestas del servidor, no le pedimos
+directo al navegador, sino que lo hacemos de una manera
+mas controlada.
+
+El send del objeto XHR tiene el metodo de send que lo que 
+hace es pedirle al navegador que se envie una peticiones
+al servidor cuando llega la misma cae dentro de la 
+propiedad response de este objeto.
+
+de esa manera el programa sigue corriendo y no tenemos
+interrupciones.
+
+el ajax crudo que estuvimos utilizando lo que hacemos es.
+JSON.parse permite convertir la cadena de texto en un 
+objeto.
+
+Luego usando JSON.stringify() nos transforma el objeto en la cadena por si lo tenemos que mandar a otro programa que requiere un JSON.
+
+Hoy vamos a armar una aplicacion de una sola pagina.
+Tratar de tener lo tipico de una pagina web.
+
