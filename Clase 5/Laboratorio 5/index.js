@@ -5,9 +5,9 @@
         let loader = document.querySelector("img")
 
         if (loader.complete) {
-            ajax("home.html", "get", function(data) {
-                render("main", data)
-            }, true)
+            ajax("http://127.0.0.1:8887/home.html", "get", function(data) {
+                render("main", data);
+            }, true);
         } else {
             loader.addEventListener("load", function(e) {
                 console.log("Loaded!")
@@ -23,43 +23,30 @@
             }
         })
 
-        function ajax(url, metodo, callback) {
-            let xhr = new XMLHttpRequest
-            xhr.open(metodo, url)
-            xhr.addEventListener("load", function() {
-                if (xhr.status == 200) {
-                    callback(xhr.response);
-                    var respuesta = {
-                        template: xhr.response,
-                        url: url.split("/")[3]
-                    }
-                    history.pushState(respuesta, " ", respuesta.url.split(".")[0]);
-                }
-            })
-            xhr.send()
-        }
         /*
          *@param selector    String : El selector donde se le hara render a la informacion
          *@param data        String : La informacion para mostrar
          */
         function render(selector, data) {
-            document.querySelector(selector).innerHTML = data;
+            let elemento = document.querySelector(selector);
+            elemento.innerHTML = data;
         }
 
         //Continuando con la pagina dinamica que habiamos construido en la clase anterior vamos a intentar controlar el historial del cliente para poder simular una navegacion completa
         //1) Modificar el callback de los clicks de cada link para que ademas se cree un nuevo punto en el historial del usuario usando el texto de cada link como nueva url
 
         //Pedidos de ajax
-        links.forEach(function(link) {
+        /*links.forEach(function(link) {
             link.addEventListener("click", function(e) {
                 e.preventDefault();
                 drawer.style.left = ''
                     //data representa el xhr response
                 ajax(e.target.href, "get", data => {
-                    render("main", data);
+                    render("main", data, true);
                 });
             });
         });
+        */
         //Funciones Utilitarias
         /*
          *@param url       String   : La url donde hacemos el pedido
@@ -87,8 +74,39 @@
         //Podemos bajar el pushState al evento load para tener acceso a la respuesta de la solicitud 
         //(*Podemos tener comportamiento erratico). La funcion ajax va a recibir entonces un cuarto parametro booleano para saber si tiene que modificar el historial o no. 
 
+        function ajax(url, metodo, callback, modificarHistorial) {
+            let xhr = new XMLHttpRequest;
+            xhr.open(metodo, url);
+            xhr.addEventListener("load", function() {
+                if (xhr.status == 200) {
+                    callback(xhr.response);
+                    if (modificarHistorial) {
+                        console.log(url);
+                        var respuesta = {
+                            template: xhr.response,
+                            url: url.split("/")[3]
+                        }
+                        window.history.pushState(respuesta, " ", respuesta.url.split(".")[0]);
+                    }
+                }
+            });
+            xhr.send();
+        }
+
+        links.forEach(function(link) {
+            link.addEventListener("click", function(e) {
+                e.preventDefault();
+                drawer.style.left = ''
+                ajax(e.target.href, "get", data => {
+                    render("main", data);
+                }, true);
+            });
+        });
+
         window.addEventListener("popstate", () => {
-            render("get", history.state.template);
+            if (history.state != null) {
+                render("main", history.state.template);
+            }
         });
 
         //4)En caso que nos quede un comportamiento erratico dado que estamos ejecutando una funcion usando la url antes de que cambie y que de hecho si observamos el objeto state del historial tampoco corresponde al estado anterior correcto podemos dejar de ejecutar ajax y simplemente hacer render del contenido de nuestro template guardado en el historial
