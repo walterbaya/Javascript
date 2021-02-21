@@ -2,10 +2,10 @@
         let menu = document.querySelector(".material-icons")
         let drawer = document.querySelector("#drawer")
         let links = document.querySelectorAll("a")
-        let loader = document.querySelector("img")
+        let loader = document.querySelector("img");
 
         if (loader.complete) {
-            ajax("http://127.0.0.1:8887/home.html", "get", function(data) {
+            ajax("http://127.0.0.1:5500/home.html", "get", function(data) {
                 render("main", data);
             }, true);
         } else {
@@ -81,12 +81,15 @@
                 if (xhr.status == 200) {
                     callback(xhr.response);
                     if (modificarHistorial) {
-                        console.log(url);
                         var respuesta = {
                             template: xhr.response,
                             url: url.split("/")[3]
                         }
                         window.history.pushState(respuesta, " ", respuesta.url.split(".")[0]);
+                    }
+                    if (window.history.state.url.includes("portfolio")) {
+                        let articles = document.querySelectorAll("article");
+                        portfolioLoad(articles);
                     }
                 }
             });
@@ -103,15 +106,36 @@
             });
         });
 
+        //4)En caso que nos quede un comportamiento erratico dado que estamos ejecutando una funcion usando la url antes de que cambieque
+        // si observamos el objeto state del historial tampoco corresponde al estado anterior correcto podemos dejar de ejecutar ajax y simplemente hacer render del contenido de nuestro template guardado en el historial
+
         window.addEventListener("popstate", () => {
             if (history.state != null) {
                 render("main", history.state.template);
             }
         });
 
-        //4)En caso que nos quede un comportamiento erratico dado que estamos ejecutando una funcion usando la url antes de que cambie y que de hecho si observamos el objeto state del historial tampoco corresponde al estado anterior correcto podemos dejar de ejecutar ajax y simplemente hacer render del contenido de nuestro template guardado en el historial
+        //5)Refactorizar la funcion callback de ajax para que ademas pueda ejecutar una funcion llamada portfolioLoad.
+        // La misma debera ser capaz de reconocer si portfolio es la pagina que se cargo
+        // si lo fue, hara un pedido por ajax a la API de imagenes https://dog.ceo/api/breeds/image/random la cual nos devolvera un JSON con la url de una imagen de perros! Estas imagenes vamos a usarlas como elementos nuevos dentro de cada <article> que se encuentre en la seccion de portfolio
 
-        //5)Refactorizar la funcion callback de ajax para que ademas pueda ejecutar una funcion llamada portfolioLoad. La misma debera ser capaz de reconocer si portfolio es la pagina que se cargo y si lo fue, hara un pedido por ajax a la API de imagenes https://dog.ceo/api/breeds/image/random la cual nos devolvera un JSON con la url de una imagen de perros! Estas imagenes vamos a usarlas como elementos nuevos dentro de cada <article> que se encuentre en la seccion de portfolio
+        function portfolioLoad(articles) {
+            let xhr = new XMLHttpRequest();
+            xhr.open("get", "https://dog.ceo/api/breeds/image/random");
+            xhr.addEventListener("load", function() {
+                if (xhr.status == 200) {
+                    let jsonObject = JSON.parse(xhr.response);
+                    let imageURL = jsonObject.message;
+                    articles.forEach(article => {
+                        let img = document.createElement("img");
+                        img.src = imageURL;
+                        console.log(article.children[0]);
+                        article.children[0].appendChild(img);
+                    });
+                }
+            });
+            xhr.send();
+        }
 
         //Bonus
         //6)Asignarles un evento de click a cada item dentro de la seccion portfolio para que puedan cargar su propio contenido por AJAX. La seccion de "Listado de usuarios" debe pedir un archivo llamado listado.html y la seccion "Traduccion de palabras" debe cargar un archivo llamado traduccion.html
