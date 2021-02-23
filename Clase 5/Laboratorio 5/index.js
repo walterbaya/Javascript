@@ -9,9 +9,7 @@
                 render("main", data);
             }, true);
         } else {
-            loader.addEventListener("load", function(e) {
-                console.log("Loaded!")
-            })
+            loader.addEventListener("load", function(e) {})
         }
 
         //Animacion del drawer
@@ -74,28 +72,6 @@
         //Podemos bajar el pushState al evento load para tener acceso a la respuesta de la solicitud 
         //(*Podemos tener comportamiento erratico). La funcion ajax va a recibir entonces un cuarto parametro booleano para saber si tiene que modificar el historial o no. 
 
-        function ajax(url, metodo, callback, modificarHistorial) {
-            let xhr = new XMLHttpRequest;
-            xhr.open(metodo, url);
-            xhr.addEventListener("load", function() {
-                if (xhr.status == 200) {
-                    callback(xhr.response);
-                    if (modificarHistorial) {
-                        var respuesta = {
-                            template: xhr.response,
-                            url: url.split("/")[3]
-                        }
-                        window.history.pushState(respuesta, " ", respuesta.url.split(".")[0]);
-                    }
-                    if (window.history.state.url.includes("portfolio")) {
-                        let articles = document.querySelectorAll("article");
-                        portfolioLoad(articles);
-                    }
-                }
-            });
-            xhr.send();
-        }
-
         links.forEach(function(link) {
             link.addEventListener("click", function(e) {
                 e.preventDefault();
@@ -119,7 +95,36 @@
         // La misma debera ser capaz de reconocer si portfolio es la pagina que se cargo
         // si lo fue, hara un pedido por ajax a la API de imagenes https://dog.ceo/api/breeds/image/random la cual nos devolvera un JSON con la url de una imagen de perros! Estas imagenes vamos a usarlas como elementos nuevos dentro de cada <article> que se encuentre en la seccion de portfolio
 
+        //Bonus
+        //6)Asignarles un evento de click a cada item dentro de la seccion portfolio para que puedan cargar su propio contenido por AJAX. La seccion de "Listado de usuarios" debe pedir un archivo llamado listado.html y la seccion "Traduccion de palabras" debe cargar un archivo llamado traduccion.html
+
+        function ajax(url, metodo, callback, modificarHistorial) {
+            let xhr = new XMLHttpRequest;
+            xhr.open(metodo, url);
+            xhr.addEventListener("load", function() {
+                if (xhr.status == 200) {
+                    callback(xhr.response);
+                    if (modificarHistorial) {
+                        var respuesta = {
+                            template: xhr.response,
+                            url: url.split("/")[3]
+                        }
+                        console.log(respuesta.url);
+                        window.history.pushState(respuesta, " ", respuesta.url.split(".")[0]);
+                    }
+                    if (window.history.state.url.includes("portfolio")) {
+                        let articles = document.querySelectorAll("article");
+                        //Cargar contenido
+                        portfolioLoad(articles);
+                        articles.forEach(link => cargarContenido(link));
+                    }
+                }
+            });
+            xhr.send();
+        }
+
         function portfolioLoad(articles) {
+
             let xhr = new XMLHttpRequest();
             xhr.open("get", "https://dog.ceo/api/breeds/image/random");
             xhr.addEventListener("load", function() {
@@ -129,7 +134,6 @@
                     articles.forEach(article => {
                         let img = document.createElement("img");
                         img.src = imageURL;
-                        console.log(article.children[0]);
                         article.children[0].appendChild(img);
                     });
                 }
@@ -137,6 +141,46 @@
             xhr.send();
         }
 
-        //Bonus
-        //6)Asignarles un evento de click a cada item dentro de la seccion portfolio para que puedan cargar su propio contenido por AJAX. La seccion de "Listado de usuarios" debe pedir un archivo llamado listado.html y la seccion "Traduccion de palabras" debe cargar un archivo llamado traduccion.html
+        function cargarContenido(link) {
+            link.addEventListener("click", e => {
+                let url = "http://127.0.0.1:5500/" + link.id + ".html";
+                ajax(url, "get", data => {
+                    console.log(e.target.id);
+                    switch (link.id) {
+                        case "traduccion":
+                            let traduccion = document.getElementById("traduccion");
+                            traduccion.innerHTML = data;
+                            break;
+                        case "listado":
+                            if (e.target.id == "usuarios") {
+                                let xhr = new XMLHttpRequest();
+                                xhr.open("get", "https://jsonplaceholder.typicode.com/users");
+                                xhr.addEventListener("load", () => {
+                                    if (xhr.status == 200) {
+                                        let json = JSON.parse(xhr.response);
+                                        let ul = document.querySelector("ul");
+                                        var fragment = new DocumentFragment();
+                                        json.forEach(j => {
+                                            let li = document.createElement("li");
+                                            li.innerHTML = j.name;
+                                            fragment.appendChild(li);
+                                        });
+                                        console.log(ul.innerHTML);
+                                        console.log(ul.innerHTML.length);
+                                        if (ul.innerHTML.length == 0) {
+                                            ul.appendChild(fragment);
+                                        }
+                                    }
+                                });
+                                xhr.send();
+                                break;
+                            } else {
+                                let listado = document.getElementById("listado");
+                                listado.innerHTML = data;
+                            }
+                    }
+                }, true);
+            });
+        }
+
         //7)Refactorizar el callback del punto anterior para que tambien se le pueda asignar un click dinamico al <button> del template de listado.html . El callback de su click debera ir a pedir por GET la siguiente URL : https://jsonplaceholder.typicode.com/users y mostrar un <li> con el nombre de cada usuario dentro del <ul> del mismo template.
