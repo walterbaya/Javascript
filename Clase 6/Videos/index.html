@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		#drop{
+			width: 400px;
+			height: 400px;
+			background: green;
+			color: white;
+		}
+
+		input{
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<!--Barra de progreso-->
+	<progress max="100"></progress>
+	<p></p>
+	<label for="texto">Arrastre sus archivos aquí o haga click</label>
+	<input type="file" id="texto">
+	<button>Crear valores!</button>
+	<div id="drop">
+		Drag y Drop
+	</div>
+	<script type="text/javascript" src="binarios.js"></script>
+
+	<script>
+		
+		//FormData, es capaz de recolectarnos toda la informacion dentro de un formulario, tambien podemos usarla para adjuntarle la informacion de manera manual
+		let valores;
+		let form = document.querySelector("form")
+		form.addEventListener("submit",  e => {
+			e.preventDefault()
+			let data = new FormData(form)
+			console.log(data)
+
+			valores = data.values();
+			//Veremos que el objeto viene vacio, la gracia del mismo es en real idad trabajar con los metodos que tiene 
+		})
+
+		let btn = document.querySelector("button")
+		let data;
+		let values;
+		let keys;
+		btn.addEventListener("click", ()=>{
+			data = new FormData()
+			for (var i = 0, i < 10; i++) {
+				data.append(`param-${i}`, i)
+			}
+			values = data.values();
+			keys = data.keys();
+		})
+
+	</script>
+</body>
+</html>
