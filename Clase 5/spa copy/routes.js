@@ -15,7 +15,4 @@ const routes = {
         contenidoHTML: "./pages/error404.html",
         titulo: "Subir fotos"
     }
-
-
-
 };
