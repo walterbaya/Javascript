@@ -1,0 +1,35 @@
+#dropzone{
+    border: 3px dashed blue;
+    padding: 10px;
+    text-align: center;
+    min-height: 100px;
+    padding: 32px;
+}
+#dropzone:hover{
+    background: powderblue;
+    border-color: blue;
+}
+#dropzone:label{
+    display:block;
+}
+.oculto{
+    display: none;
+}
+
+.thumbnail{
+    display: inline-block;
+    border: 1px solid gray;
+    border-radius: 6px;
+    background: white;
+    vertical-align: top;
+    min-height: 154px;
+}
+
+label{
+    display: block;
+}
+
+#respuesta{
+    padding: 5px;
+    margin-bottom: 10px;
+}
