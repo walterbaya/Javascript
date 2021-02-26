@@ -2,6 +2,17 @@ const btnHome = document.getElementById("btnhome");
 const navegacion = document.getElementById("navegacion");
 const contenedor = document.getElementById("contenedor");
 //const botones = navegacion.querySelectorAll("button");
+let fragNav = document.createDocumentFragment();
+Object.keys(routes).forEach(ruta => {
+    if (routes[ruta].boton == false) {
+        return;
+    }
+    let boton = document.createElement("button");
+    boton.setAttribute("data-ruta", ruta);
+    boton.textContent = routes[ruta].boton;
+    fragNav.appendChild(boton);
+});
+navegacion.appendChild(fragNav);
 
 navegacion.addEventListener('click', navegar);
 cargarContenedor(routes["/home"]);
@@ -51,15 +62,41 @@ function cargarContenedor(objetoPagina) {
         objetoPagina = routes.error404;
     }
 
+    if (objetoPagina.cache) {
+        contenedor.innerHTML = objetoPagina.cache;
+        reinsertarScripts();
+        document.title = objetoPagina.titulo;
+        return
+    }
+
     const ajax = new XMLHttpRequest();
     ajax.open('GET', objetoPagina.contenidoHTML);
     ajax.addEventListener('load', e2 => {
         if (ajax.status == 200 && ajax.readyState == 4) { //Saber si la respuesta es buena
             contenedor.innerHTML = ajax.response;
+            objetoPagina.cache = ajax.response;
+            reinsertarScripts();
             document.title = objetoPagina.titulo;
         } else {
             contenedor.innerHTML = "Error Custom";
         }
     });
     ajax.send();
+}
+
+//Permite utilizar las etiquetas script que estan dentro de las paginas traidas por medio de ajax
+function reinsertarScripts() {
+    const srcs = [];
+    const scripts = contenedor.querySelectorAll("script");
+    scripts.forEach(s => {
+        srcs.push(s.src);
+        s.remove();
+    });
+
+    let frag = document.createDocumentFragment();
+    srcs.forEach(url => {
+        let newScript = document.createElement("script");
+        newScript.src = url;
+        frag.appendChild(newScript);
+    });
 }
