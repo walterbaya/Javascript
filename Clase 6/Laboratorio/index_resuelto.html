@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <header>
+        <button class="material-icons">menu</button>
+        <h1>Mi Pagina</h1>
+        <nav id="drawer">
+            <a href="perfil.html">perfil</a>
+            <a href="portfolio.html">portfolio</a>
+            <a href="contacto.html">contacto</a>
+        </nav>
+    </header>
+    <main>
+        <img id="loader" src="loader.gif" alt="loader">
+    </main>
+    <footer>
+        <p>&copy; Copyright 2018</p>
+    </footer>
+    
+    <script>
+        //let imagenes = []
+        // 
+        //     Vamos a intentar completar nuestra funcion ajax para darle mas independencia. Para esto vamos a trabajar el html del archivo download.html :
+        
+        //     1)Agregar 5 imagenes a nuestra carpeta de proyecto
+        
+        //     2)Actualizar el array imagenes con los nombres de tus imagenes
+        let imagenes = ["imagen1","imagen2","imagen3","imagen4","imagen5"]
+        //     3)Por cada una de las imagenes se debera mostrar un item dentro de la lista desordenada con un <a> que apunte a cada archivo. Realizar esta operacion adentro de una funcion llamada crearLinks(*En el archivo app.js , al finalizar la carga del archivo download.html se esta llamando a esta funcion como callback final)
+        // function crearLinks(){
+        //     let fragmento = document.createDocumentFragment()
+        //     imagenes.forEach(function(imagen){
+        //         let link = document.createElement("a")
+        //         link.href = imagen+".jpeg"
+        //         link.style.display = "block"
+        //         link.innerText = imagen
+        //         fragmento.appendChild(link)
+        //     })
+        //     document.querySelector("#archivos-descarga").appendChild(fragmento)
+        // }   
+        
+        //     4)Asignarles un evento de click para que puedan ir a pedir por ajax el archivo en cuestion
+        function crearLinks(){
+            let fragmento = document.createDocumentFragment()
+            imagenes.forEach(function(imagen){
+                let link = document.createElement("a")
+                link.href = imagen+".jpeg"
+                link.style.display = "block"
+                link.innerText = imagen
+                link.addEventListener("click",function(e){
+                    e.preventDefault();
+                    let p = document.createElement("progress")
+                    p.max = 100
+                    document.querySelector("main").appendChild(p)
+                    ajax(imagen+".jpeg","get",function(data){
+                        let url = URL.createObjectURL(data)
+                        let img = document.createElement("img")
+                        img.style.width = "200px"
+                        img.src = url
+                        let btn = document.createElement("button")
+                        btn.innerText = "Aceptar"
+                        btn.addEventListener("click",function(){
+                            console.log("Se acepto la descarga")
+                            let a = document.createElement("a")
+                            a.download = "Imagen"
+                            a.href = url
+                            document.body.appendChild(a)
+                            a.click()
+                            document.body.removeChild(a)
+                        })
+                        document.querySelector("main").appendChild(img)
+                        document.querySelector("main").appendChild(btn)
+                        p.parentElement.removeChild(p)
+                    },false,function(progreso){
+                        p.value = progreso
+                    },"blob")
+                })
+                fragmento.appendChild(link)
+            })
+            document.querySelector("#archivos-descarga").appendChild(fragmento)
+        }  
+        //     5)Admitir un nuevo parametro opcional dentro de nuestra funcion ajax. El mismo debera ser de tipo funcion y si estuviera presente, primero tiene que registrar un evento progress en nuestro objeto XHR
+        // function ajax(url,metodo,callback,historial,progressCallback){
+        //     let xhr = new XMLHttpRequest
+        //     xhr.open(metodo,url)
+        //     if(progressCallback){
+        //         xhr.addEventListener("progress",function(e){
+                    
+        //         })
+        //     }
+        //     xhr.addEventListener("load",function(){
+        //         if(xhr.status==200){
+        //             if(historial){
+        //                 window.history.pushState({
+        //                     url : url.split(".")[0],
+        //                     template : xhr.response
+        //                 },"",url.split(".")[0])
+        //             }
+        //             callback(xhr.response)
+        //         }
+        //     })
+        //     xhr.send()
+        // }
+        //     6)Dentro del evento progress validar si es posible calcular la cantidad de bytes descargados hasta el momento. En caso de serlo, mostrar una barra de progreso numerica para informarle al usuario como va su descarga.
+        // function ajax(url,metodo,callback,historial,progressCallback){
+        //     let xhr = new XMLHttpRequest
+        //     xhr.open(metodo,url)
+        //     if(progressCallback){
+        //         xhr.addEventListener("progress",function(e){
+        //             if(e.lengthComputable){
+        //                 let porcentaje = e.loaded * 100 / e.total
+        //                 progressCallback(porcentaje)
+        //             }
+        //         })
+        //     }
+        //     xhr.addEventListener("load",function(){
+        //         if(xhr.status==200){
+        //             if(historial){
+        //                 window.history.pushState({
+        //                     url : url.split(".")[0],
+        //                     template : xhr.response
+        //                 },"",url.split(".")[0])
+        //             }
+        //             callback(xhr.response)
+        //         }
+        //     })
+        //     xhr.send()
+        // }
+        
+        //     7)Integrar nuestra funcion ajax con un nuevo parametro opcional para definir el tipo de dato de la respuesta. Si esta presente, se le permite al objeto XHR usar responseType. Al finalizar, descargar el archivo y mostrar un preview del mismo en miniatura para que se entere que esta bajando junto con un boton para aceptar la descarga o cancelarla.
+        function ajax(url,metodo,callback,historial,progressCallback,tipo,data){
+            let xhr = new XMLHttpRequest
+            xhr.open(metodo,url)
+            if(tipo){
+                xhr.responseType = tipo
+            }
+            if(progressCallback){
+                xhr.addEventListener("progress",function(e){
+                    if(e.lengthComputable){
+                        let porcentaje = e.loaded * 100 / e.total
+                        progressCallback(porcentaje)
+                    }
+                })
+            }
+            xhr.addEventListener("load",function(){
+                if(xhr.status==200){
+                    if(historial){
+                        window.history.pushState({
+                            url : url.split(".")[0],
+                            template : xhr.response
+                        },"",url.split(".")[0])
+                    }
+                    callback(xhr.response)
+                }
+            })
+            if(data && metodo.toLowerCase() == "post"){
+                xhr.send(data)
+            }else{
+                xhr.send()
+            }
+        }
+        //BONUS
+        //      Vamos a intentar completar aun mas nuestra funcion de ajax para que la misma pueda manejar el control de la subida de informacion al servidor. Para eso vamos a trabajar sobre el archivo dropzone.html:
+        //     1)Mostrar un preview de los archivos una vez que estos se hayan seleccionado. Se puede utilizar el evento change en el input o el evento drop de la API si se vio en clase como usar los eventos de drag y drop. Cada preview debe contar con el nombre y el peso de los archivos
+        // document.addEventListener("change",function(e){
+        //     if(e.target.id == "dropzone-input"){
+        //         manejarArchivos(e.target.files)
+        //     }
+        // })
+        document.addEventListener("dragover",function(e){
+            e.preventDefault()
+            e.stopPropagation()
+        })
+        // document.addEventListener("drop",function(e){
+        //     e.preventDefault()
+        //     e.stopPropagation()
+        //     if(e.target.id == "dropzone" || e.target.id == "dropzone-label"){
+        //         manejarArchivos(e.dataTransfer.files)
+        //     }
+        // })
+        let archivos_globales;
+        let template;
+        function manejarArchivos(archivos){
+            archivos_globales = Array.prototype.slice.call(archivos,0)
+            let fragmento = document.createDocumentFragment()
+            for (var i = 0; i < archivos.length; i++) {
+                let archivo = archivos[i]
+                let img = document.createElement("img")
+                img.src = archivo.name
+                let pName = document.createElement("p")
+                pName.innerText = archivo.name
+                let pSize = document.createElement("p")
+                pSize.innerText = ((archivo.size / 1024) / 1024) + "Mb"
+                let div = document.createElement("div")
+                div.id = "archivo"+i
+                div.className = "thumbnail"
+                div.appendChild(img)
+                div.appendChild(pName)
+                div.appendChild(pSize)
+                fragmento.appendChild(div)
+            }
+            let dropzone = document.querySelector("#dropzone")
+            template = dropzone.innerHTML
+            dropzone.innerHTML = ""
+            dropzone.appendChild(fragmento)
+        }
+        //     2)Remover la clase .none de los botones para que estos se puedan ver
+        document.addEventListener("drop",function(e){
+            e.preventDefault()
+            e.stopPropagation()
+            if(e.target.id == "dropzone" || e.target.id == "dropzone-label"){
+                document.querySelector("#subir-dropzone").classList.remove("none")
+                document.querySelector("#cancelar-dropzone").classList.remove("none")
+                manejarArchivos(e.dataTransfer.files)
+            }
+        })
+        document.addEventListener("change",function(e){
+            if(e.target.id == "dropzone-input"){
+                document.querySelector("#subir-dropzone").classList.remove("none")
+                document.querySelector("#cancelar-dropzone").classList.remove("none")
+                manejarArchivos(e.target.files)
+            }
+        })
+        //     3)Registrarle un evento de click al boton #subir-dropzone para el pueda interceptar el valor del input y mostrarnos los archivos en la consola
+        // document.addEventListener("click",function(e){
+        //     if(e.target.id == "subir-dropzone"){
+        //         console.log(archivos_globales)
+        //     }
+        // })
+        //     4)Refactorizar el evento del punto anterior para que el mismo sea capaz de guardar nuestros archivos como parametros usables dentro de un pedido por ajax a traves del metodo POST.
+        document.addEventListener("click",function(e){
+            if(e.target.id == "subir-dropzone"){
+                let data = new FormData
+                archivos_globales.forEach(function(archivo,i){
+                    data.append("archivo"+i,archivo)
+                })
+                ajax("subir.php","post",function(res){
+                    console.log(res)
+                },false,null,null,data)
+            }
+        }) 
+        //     5)Registrarle un evento de click al boton #cancelar-dropzone para que se limpie el contenido del dropzone y vuelva su texto a la normalidad.
+        document.addEventListener("click",function(e){
+            if(e.target.id == "cancelar-dropzone"){
+                document.querySelector("#dropzone").innerHTML = template
+            }
+        }) 
+        </script>
+        <script src="funciones.js"></script>
+        <script src="app.js"></script>
+</body>
+</html>
