@@ -47,34 +47,63 @@
         //     3)Por cada una de las imagenes se debera mostrar un item dentro de la lista desordenada con un <a> que apunte a cada archivo. Realizar esta operacion adentro de una funcion llamada crearLinks(*En el archivo app.js , al finalizar la carga del archivo download.html se esta llamando a esta funcion como callback final)
 
         function crearLinks() {
-
             let fragmento = new DocumentFragment()
                 //el callback recordar que trabaja con el response
             ajax("download.html", "get", res => {
                 imagenes.forEach(img => {
                     let a = document.createElement("a")
                     a.href = img
+                    a.id = img
+                    a.className = "links"
                     a.style = "display: block"
-                    a.innerText = "Descargar " + img
+                    a.innerText = img
                     fragmento.appendChild(a);
                 })
                 $('#archivos-descarga').append(fragmento)
                 let aEs = $('#archivos-descarga a').get()
                     //asignarle evento click e ir a buscar la imagen
-                console.log(aEs)
+                aEs.forEach(a => {
+                    console.log(a)
+                    eventoPedirImagen(a)
+                })
             }, false)
-
-
         }
 
-        // a : item al que se le quiere asignar el listener de click para obtener la imagen
+        //4)Asignarles un evento de click para que puedan ir a pedir por ajax el archivo en cuestion
+                  // a : item al que se le quiere asignar el listener de click para obtener la imagen
         function eventoPedirImagen(a) {
+            let url = a.href 
             a.addEventListener('click', obtenerImagen);
         }
 
-        //     4)Asignarles un evento de click para que puedan ir a pedir por ajax el archivo en cuestion
-        //     5)Admitir un nuevo parametro opcional dentro de nuestra funcion ajax. El mismo debera ser de tipo funcion y si estuviera presente, primero tiene que registrar un evento progress en nuestro objeto XHR
-        //     6)Dentro del evento progress validar si es posible calcular la cantidad de bytes descargados hasta el momento. En caso de serlo, mostrar una barra de progreso numerica para informarle al usuario como va su descarga.
+        function obtenerImagen(e){
+            e.preventDefault()
+            url = e.target.innerText
+            ajax(url,"get", response => {
+                console.log(response)
+                let urlObject = URL.createObjectURL(response)
+                let img = document.createElement("img")
+                img.src = urlObject
+            },false, true, progress)
+        }
+        
+        // 5)Admitir un nuevo parametro opcional dentro de nuestra funcion ajax. El mismo debera ser de tipo funcion y si estuviera presente, primero tiene que registrar un evento progress en nuestro objeto XHR
+        //6)Dentro del evento progress validar si es posible calcular la cantidad de bytes descargados hasta el momento. En caso de serlo, mostrar una barra de progreso numerica para informarle al usuario como va su descarga.
+
+        //Agrega una barra luego del elem
+        function progress(xhr, url){
+                let barraProgreso = document.createElement('progress')
+                barraProgreso.max = 100
+                barraProgreso.className = "cargadores"
+                document.getElementById(url).appendChild(barraProgreso)
+                xhr.addEventListener('progress', e => {
+                if(e.lengthComputable){
+                    barraProgreso.value = 100*(e.loaded/e.total)
+                }
+            })
+        }
+
+
         //     7)Integrar nuestra funcion ajax con el nuevo front end para que se pueda apreciar la descarga de cada archivo. Al finalizar, descargar el archivo y mostrar un preview del mismo en miniatura para que se entere que esta bajando junto con un boton para aceptar la descarga o cancelarla.
 
         //BONUS

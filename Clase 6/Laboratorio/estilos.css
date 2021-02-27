@@ -232,4 +232,11 @@ legend{
         display: block;
         box-shadow: none;
     }
+
+    .links{
+        display: block;
+    }
+    .cargadores {
+        margin-left: 1em
+    }
 }
