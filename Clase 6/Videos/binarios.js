@@ -58,7 +58,7 @@ xhr.addEventListener("progress", e => {
     }
 })
 
-xhr.open("get", "iamgen.jpg")
+xhr.open("get", "imagen.jpg")
 xhr.send()
 
 //DRAG y DROP 
@@ -96,7 +96,7 @@ function manejarArchivos(archivos) {
     for (var i = 0; i < archivos.length; i++) {
         data.append(`imagen-${i}`, archivos[i])
     }
-    let xhr = new new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
 
     //Permite post enviar mas kb que get, razon por la cual
     //usamos post para enviar

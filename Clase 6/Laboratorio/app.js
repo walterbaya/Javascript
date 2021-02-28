@@ -109,6 +109,8 @@ document.addEventListener("click",function(e){
             case "dropzone-article":
                 ajax("dropzone.html","get",function(data){
                     render("main",data)
+                    removerNone()
+                    crearImagen()
                 },true)
             break;
             case "download-article":

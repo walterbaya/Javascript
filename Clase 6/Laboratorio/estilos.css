@@ -239,4 +239,15 @@ legend{
     .cargadores {
         margin-left: 1em
     }
-}
+    .imagenes{
+        width: 20%;
+        display: block;
+    }
+    .botones{
+        height: 20px;
+        display: inline-block;
+        width: 10%;
+        margin-top: 0.5em;
+    }
+
+}   
