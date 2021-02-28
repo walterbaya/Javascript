@@ -44,6 +44,7 @@
 
         function obtenerImagen(e){
             e.preventDefault()
+            e.stopPropagation()
             url = e.target.innerText
             ajax(url,"get", response => {
                 let urlObject = URL.createObjectURL(response)
@@ -60,9 +61,26 @@
                 e.target.appendChild(img)
                 e.target.appendChild(aceptar)
                 e.target.appendChild(cancelar)
+                aceptar.addEventListener('click', d => {
+                    d.stopPropagation()
+                    console.log(e.target.setAttribute('download','imagen'))
+                    closeEverithing(img,aceptar,cancelar,'progress');
+                })
+                cancelar.addEventListener('click', d => {
+                    d.preventDefault()
+                    d.stopPropagation()
+                    closeEverithing(img,aceptar,cancelar,'progress');
+                })
 
             },false, true, progress)
 
+        }
+
+        function closeEverithing(img,aceptar,cancelar,progress){
+            $(img).hide(1000)
+            $(aceptar).hide(1000)
+            $(cancelar).hide(1000)
+            $(progress).hide(1000)
         }
         
         // 5)Admitir un nuevo parametro opcional dentro de nuestra funcion ajax. El mismo debera ser de tipo funcion y si estuviera presente, primero tiene que registrar un evento progress en nuestro objeto XHR
@@ -82,13 +100,10 @@
         }
 
 
-        //7)Integrar nuestra funcion ajax con el nuevo front end para que se pueda apreciar la descarga de cada archivo. Al finalizar, 
-        
+        //7)Integrar nuestra funcion ajax con el nuevo front end para que se pueda apreciar la descarga de cada archivo.
+        // Al finalizar, descargar el archivo y mostrar un preview del mismo en miniatura para que se entere que esta bajando
+        //junto con un boton para aceptar la descarga o cancelarla.
 
-
-        //Falta realizar esta parte
-        //descargar el archivo y mostrar un preview del mismo en miniatura para que se entere que esta bajando
-        // junto con un boton para aceptar la descarga o cancelarla.
 
         //BONUS
         //      Vamos a intentar completar aun mas nuestra funcion de ajax para que la misma pueda manejar el control de la subida de informacion al servidor. Para eso vamos a trabajar sobre el archivo dropzone.html:
