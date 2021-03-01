@@ -10,7 +10,7 @@ const routes = {
         boton: "Peliculas"
     },
     "/fotos": {
-        contenidoHTML: "./pages/subir-fotos/subir.html",
+        contenidoHTML: "./subir/subir.html",
         titulo: "Subir fotos",
         boton: "Subir Fotos"
     },
