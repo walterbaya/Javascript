@@ -4,21 +4,20 @@
  *@param metodo    String   : El metodo HTTP del pedido
  *@param callback  Function : La funcion a ejecutar en el evento load 
  */
-
-
-
-
-function ajax(url, metodo, callback, historial, blob, progress) {
-   
+function ajax(url, metodo, callback, historial, blob) {
     let xhr = new XMLHttpRequest
-    if(blob){
+    if (blob) {
+        //aviso que 
         xhr.responseType = "blob"
-    }
-
-    if(progress){ 
-        progress(xhr,url)
-    }
+        let blob = xhr.response
+        let img  =   URL.createObjectURL(blob)
     
+        xhr.open(metodo, url)
+    }
+    else{
+
+
+    }
     xhr.open(metodo, url)
     xhr.addEventListener("load", function() {
         if (xhr.status == 200) {
