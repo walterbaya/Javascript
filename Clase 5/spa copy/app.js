@@ -18,7 +18,7 @@ navegacion.addEventListener('click', navegar);
 cargarContenedor(routes["/home"]);
 window.addEventListener("popstate", e => cargarContenedor(e.state));
 
-window.addEventListener('load', e => cargarContenedor(routes[window.location.pathname]));
+window.addEventListener('load', () => cargarContenedor(routes[window.location.pathname]));
 //------------------------------------------------------
 //Funciones
 //------------------------------------------------------

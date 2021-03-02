@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const xhr = new XMLHttpRequest();
+        /*Vemos que nos da un error que dice que no podemos preguntarle a localhost desde otro puerto,
+        entonces no hay manera si no tengo acceso de poder hacerle un AJAX, el pedido no esta bloqueado
+        si le pedimos al servidor alguna libreria.
+        Es mejor usar un CDN a tener el archivo en el servidor, ya que nos permite tener el bootstrap que quizas el usuario
+        ya lo tenia cacheado.
+        necesitamos tener entonces una sentencia de JAVASCRIPT, debe ser una función por ejemplo*/
+        xhr.open('GET', "http://localhost");
+        xhr.addEventListener('LOAD', e => {
+            console.log(xhr.response);
+        });
+        xhr.send();
+
+        function procesar(data){
+            console.log("respuesta: " + data);
+        }
+        //Usando la funcion procesar obtenemos el json, encapsulado dentro de una funcion.
+        //Creo un script con el source, de la direccion que le queremos pegar.
+        const myScript = document.createElement('script');
+        myScript.src = "http://localhost/index.php";
+        document.body.appendChild(myScript);
+        //para poder usar jasonp debe permitir la pagina que se le pase un parametro fn tipo funciones
+        //localhost://?fn-pepe
+        //queda todo como el parametro del llamado de una funcion que se llama pepe, como es codigo javascript
+        //se puede ejecutar.
+
+    </script>
+
+</body>
+</html>
