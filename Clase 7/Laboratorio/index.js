@@ -17,45 +17,40 @@ function resolver(direccion,funcionAceptar,funcionRechazar){
   $.ajax(objetoConfigurable)
 }
 
-const handleChange = new Promise(function(aceptar,rechazar){
+function handleChange(){
+  let promesa = new Promise(function(aceptar,rechazar){
   resolver("https://jsonplaceholder.typicode.com/users/1",
         (response)=>{
-              //let user = JSON.parse(xhr_user.response)
-              aceptar(response)
-              console.log("Esta es la respuesta")
-              console.log(response)
-            }, 
+          aceptar(response)
+        }, 
         ()=>{
-              let text = "fallo el pedido de usuario"
-              rechazar(text)
-            } 
+          let text = "fallo el pedido de usuario"
+          rechazar(text)
+        } 
       )
   })
 
 
-handleChange
+promesa
   .then(user => {
     return new Promise(function(aceptar,rechazar){
     resolver("https://jsonplaceholder.typicode.com/posts?userId=" + user.id,
         (posts)=>{
           aceptar(posts)
-          console.log("Estos son los posts")
-          console.log(posts)
         }, 
         ()=>{
-              let text = "fallo la promesa de pedido de posts"
-              rechazar(text)
+          let text = "fallo la promesa de pedido de posts"
+          rechazar(text)
         } 
       )
     })
   })
-  .then(comentarios => {
+  .then(posts => {
     return new Promise(function(aceptar,rechazar){
-    resolver("https://jsonplaceholder.typicode.com/comments?postId="+post.id,
+    posts.forEach(post => {
+      resolver("https://jsonplaceholder.typicode.com/comments?postId=" + post.id,
         (comentarios)=>{
           aceptar(comentarios);
-          console.log("comentarios correspondientes al" + post.id)
-          console.log(comentarios)
         }, 
         ()=>{
             const text = "fallo la búsqueda de comentarios"
@@ -63,10 +58,14 @@ handleChange
         } 
       )
     })
+    })
   })
   .catch(valor => {
     console.log(valor)
   })
+
+}
+
 
 
 /*Se le acaba de habilitar al portfolio un nuevo Servicio! 
@@ -75,30 +74,43 @@ handleChange
    pedidos XHR encadenados dependientes de cada uno.
 */
 
-traerUsuarios = new Promise(function(aceptar,rechazar){
+function traerUsuarios(){
+  const promesa = new Promise(function(aceptar,rechazar){
   resolver("https://jsonplaceholder.typicode.com/users",
         (usuarios)=>{
-          let fragmento = document.createDocumentFragment()
-          usuarios.forEach(function(user){
-            let option = document.createElement('option')
-            option.value = user.id
-            option.innerText = user.name
-            fragmento.appendChild(option)
-            aceptar(usuarios)
-            document.querySelector("#usuario-select").appendChild(fragmento)
-            document.querySelector("#usuario-select").addEventListener("change",handleChange)
+          aceptar(usuarios)
         }, 
         ()=>{
-              let text = "fallo el pedido de usuario"
-              rechazar(text)
+          let text = "fallo el pedido de usuario"
+          rechazar(text)
         } 
       )
   })
-})
 
+promesa
+  .then(usuarios =>{
+    let fragmento = document.createDocumentFragment()
+    usuarios.forEach(user => {
+      let option = document.createElement('option')
+      option.value = user.id
+      option.innerText = user.name
+      fragmento.appendChild(option)
+      document.querySelector("select#usuario-select").appendChild(fragmento)
+      document.querySelector("select#usuario-select").addEventListener("change",handleChange)
+    })
+  })
+  .catch(text => {
+    console.log(text)
+  })
+} 
        
 
-  //2) Crear una función llamada get que tome como parámetros una URL , un Método y un Callback para errores y para respuestas positivas. La misma deberá crear una solicitud XHR utilizando la API de Promesas y devolver una Promise ya instanciada. Refactori
+  //2) Crear una función llamada get que tome como parámetros una URL,
+  // un Método y un Callback para errores y para respuestas positivas.
+  // La misma deberá crear una solicitud XHR utilizando la API de Promesas y devolver una Promise ya instanciada.
+  // Refactorizar codigo
+
+  //Esto ya lo hice desde un primer momento así que no voy a repetir, funcion no se llama get se llama resolver.
 
   //BONUS
        
