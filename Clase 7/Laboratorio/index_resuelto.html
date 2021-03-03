@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <header>
+        <button class="material-icons">menu</button>
+        <h1>Mi Pagina</h1>
+        <nav id="drawer">
+            <a href="perfil.html">perfil</a>
+            <a href="portfolio.html">portfolio</a>
+            <a href="contacto.html">contacto</a>
+        </nav>
+    </header>
+    <main>
+        <img id="loader" src="loader.gif" alt="loader">
+    </main>
+    <footer>
+        <p>&copy; Copyright 2018</p>
+    </footer>
+    <script src="funciones.js"></script>
+    <script src="app.js"></script>
+    <script>
+        let imagenes = ["imagen1","imagen2","imagen3","imagen4","imagen5"]
+        
+        /*
+        
+        Se le acaba de habilitar al portfolio un nuevo Servicio! Ahora se puede ver los posts que hizo un usuario y sus respuestas correspondientes. El mismo esta corriendo actualmente con código asincrónico estableciendo pedidos XHR encadenados dependientes de cada uno.
+        
+        */
+    //    function handleChange(){
+    //        let usuerId = this.value
+    //        let xhr_user = new XMLHttpRequest
+    //        xhr_user.open("get","https://jsonplaceholder.typicode.com/users/"+usuerId)
+    //        xhr_user.addEventListener("load",function(){
+    //            if(xhr_user.status == 200){
+    //                let user = JSON.parse(xhr_user.response)
+    //                let xhr_posts = new XMLHttpRequest
+    //                xhr_posts.open("get","https://jsonplaceholder.typicode.com/posts?userId="+user.id)
+    //                xhr.addEventListener("load",function(){
+    //                    if(xhr_posts.status == 200){
+    //                        let posts = JSON.parse(xhr_posts.response)
+    //                        posts.forEach(function(post){
+    //                            let xhr_comentarios = new XMLHttpRequest
+    //                            xhr_comentarios.open("get","https://jsonplaceholder.typicode.com/comments?postId="+post.id)
+    //                            xhr_comentarios.addEventListener("load",function(){
+    //                                if(xhr_comentarios.status == 200){
+    //                                    let comentarios = JSON.parse(xhr_comentarios.response)
+    //                                    console.log(comentarios)
+    //                                }
+    //                            })
+    //                            xhr_comentarios.send()
+    //                        })
+    //                    }
+    //                })
+    //                xhr.send()
+    //            }
+    //        })
+    //        xhr.send()
+    //    }
+
+    //    function traerUsuarios(){
+    //        let xhr = new XMLHttpRequest
+    //        xhr.open("get","https://jsonplaceholder.typicode.com/users")
+    //        xhr.addEventListener("load",function(){
+    //            if(xhr.status == 200){
+    //                let usuarios = JSON.parse(xhr.response)
+    //                let fragmento = document.createDocumentFragment()
+    //                usuarios.forEach(function(usuario){
+    //                    let option = document.createElement("option")
+    //                    option.value = usuario.id
+    //                    option.innerText = usuario.name
+    //                    fragmento.appendChild(option)
+    //                })
+    //                document.querySelector("select#usuario-select").appendChild(fragmento)
+    //                document.querySelector("select#usuario-select").addEventListener("change",handleChange)
+    //            }
+    //        })
+    //        xhr.send()
+    //    }
+
+       //1) Refactorizar el pedido del ejemplo anterior utilizando promesas que contengan pedidos XHR. Ambas funciones deben permanecer con esos nombres para que el programa siga funcionando.
+
+    //     function handleChange(){
+    //        let usuerId = this.value
+
+    //         let promesa_usuario = new Promise(function(res,rej){
+    //             let xhr_user = new XMLHttpRequest
+    //             xhr_user.open("get","https://jsonplaceholder.typicode.com/users/"+usuerId)
+    //             xhr_user.addEventListener("load",function(){
+    //                 if(xhr_user.status == 200){
+    //                    res(JSON.parse(xhr_user.response))
+    //                 }
+    //             })
+    //             xhr.send()
+    //         })
+
+    //         promesa_usuario
+    //         .then(function(val){
+    //             return new Promise(function(res,rej){
+    //                 let xhr_posts = new XMLHttpRequest
+    //                 xhr_posts.open("get","https://jsonplaceholder.typicode.com/posts?userId="+val.id)
+    //                 xhr.addEventListener("load",function(){
+    //                     if(xhr_posts.status == 200){
+    //                         res(JSON.parse(xhr_posts.response))
+    //                     }
+    //                 })
+    //                 xhr.send()
+    //             })
+    //         })
+    //         .then(function(val){
+    //             val.forEach(function(post){
+    //                 let xhr_comentarios = new XMLHttpRequest
+    //                 xhr_comentarios.open("get","https://jsonplaceholder.typicode.com/comments?postId="+post.id)
+    //                 xhr_comentarios.addEventListener("load",function(){
+    //                     if(xhr_comentarios.status == 200){
+    //                         let comentarios = JSON.parse(xhr_comentarios.response)
+    //                         console.log(comentarios)
+    //                     }
+    //                 })
+    //                 xhr_comentarios.send()
+    //             })
+    //         })
+
+    //    }
+
+    //    function traerUsuarios(){
+
+    //         let promesa_usuario = new Promise(function(res,rej){
+    //             let xhr = new XMLHttpRequest
+    //             xhr.open("get","https://jsonplaceholder.typicode.com/users")
+    //             xhr.addEventListener("load",function(){
+    //                 if(xhr.status == 200){
+    //                     res(JSON.parse(xhr.response))
+    //                 }
+    //             })
+    //             xhr.send()
+    //         })
+
+    //         promesa_usuario
+    //         .then(function(res){
+    //             let fragmento = document.createDocumentFragment()
+    //             res.forEach(function(usuario){
+    //                 let option = document.createElement("option")
+    //                 option.value = usuario.id
+    //                 option.innerText = usuario.name
+    //                 fragmento.appendChild(option)
+    //             })
+    //             document.querySelector("select#usuario-select").appendChild(fragmento)
+    //             document.querySelector("select#usuario-select").addEventListener("change",handleChange)
+    //         })
+    //    }
+
+       //2) Crear una función llamada get que tome como parámetro una URL . La misma deberá crear una solicitud XHR GET utilizando la API de Promesas y devolver una Promise ya instanciada. Refactorizar el codigo usando tu nueva funcion.
+
+    //    function get(url){
+    //        return new Promise(function(res,rej){
+    //            let xhr = new XMLHttpRequest
+    //            xhr.open("get",url)
+    //            xhr.addEventListener("load",function(){
+    //                if(xhr.status == 200){
+    //                    res(JSON.parse(xhr.response))
+    //                }
+    //            })
+    //            xhr.send()
+    //        })
+    //    }
+
+    //     function handleChange(){
+    //        let usuerId = this.value
+
+    //         let promesa_usuario = get("https://jsonplaceholder.typicode.com/users/"+usuerId)
+
+    //         promesa_usuario
+    //         .then(function(val){
+    //             return get("https://jsonplaceholder.typicode.com/posts?userId="+val.id)
+    //         })
+    //         .then(function(val){
+    //             val.forEach(function(post){
+    //                 return get("https://jsonplaceholder.typicode.com/comments?postId="+post.id)
+    //             })
+    //         })
+    //         .then(function(val){
+    //             console.log(val)
+    //         })
+
+    //    }
+
+    //    function traerUsuarios(){
+
+    //         let promesa_usuario = get("https://jsonplaceholder.typicode.com/users")
+
+    //         promesa_usuario
+    //         .then(function(res){
+    //             let fragmento = document.createDocumentFragment()
+    //             res.forEach(function(usuario){
+    //                 let option = document.createElement("option")
+    //                 option.value = usuario.id
+    //                 option.innerText = usuario.name
+    //                 fragmento.appendChild(option)
+    //             })
+    //             document.querySelector("select#usuario-select").appendChild(fragmento)
+    //             document.querySelector("select#usuario-select").addEventListener("change",handleChange)
+    //         })
+    //    }
+
+       //BONUS
+       
+       //1) Refactorizar tu código anterior y usar solamente la API de Fetch para encadenar todo el pedido
+
+        function handleChange(){
+           let usuerId = this.value
+
+            let promesa_usuario = fetch("https://jsonplaceholder.typicode.com/users/"+usuerId)
+
+            promesa_usuario
+            .then(val=>val.json())
+            .then(val=> fetch("https://jsonplaceholder.typicode.com/posts?userId="+val.id))
+            .then(val=>val.json())
+            .then(val=>{
+                let arr = []
+                val.forEach(function(post){
+                    arr.push(fetch("https://jsonplaceholder.typicode.com/comments?postId="+post.id))
+                })
+                return Promise.all(arr)
+            })
+            .then(val=>{
+                let arr = []
+                val.forEach(function(res){
+                    arr.push(res.json())
+                })
+                return Promise.all(arr)
+            })
+            .then(val=>{
+                console.log(val)
+            })
+
+       }
+
+       function traerUsuarios(){
+
+            let promesa_usuario = fetch("https://jsonplaceholder.typicode.com/users")
+
+            promesa_usuario
+            .then(res=>res.json())
+            .then(function(res){
+                let fragmento = document.createDocumentFragment()
+                res.forEach(function(usuario){
+                    let option = document.createElement("option")
+                    option.value = usuario.id
+                    option.innerText = usuario.name
+                    fragmento.appendChild(option)
+                })
+                document.querySelector("select#usuario-select").appendChild(fragmento)
+                document.querySelector("select#usuario-select").addEventListener("change",handleChange)
+            })
+       }
+
+    </script>
+</body>
+</html>
