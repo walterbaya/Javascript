@@ -17,6 +17,7 @@ function resolver(direccion,funcionAceptar,funcionRechazar){
   $.ajax(objetoConfigurable)
 }
 
+/*
 function handleChange(){
   let promesa = new Promise(function(aceptar,rechazar){
   resolver("https://jsonplaceholder.typicode.com/users/1",
@@ -66,7 +67,7 @@ promesa
 
 }
 
-
+*/
 
 /*Se le acaba de habilitar al portfolio un nuevo Servicio! 
   Ahora se puede ver los posts que hizo un usuario y sus respuestas correspondientes.
@@ -74,6 +75,7 @@ promesa
    pedidos XHR encadenados dependientes de cada uno.
 */
 
+/*
 function traerUsuarios(){
   const promesa = new Promise(function(aceptar,rechazar){
   resolver("https://jsonplaceholder.typicode.com/users",
@@ -103,7 +105,8 @@ promesa
     console.log(text)
   })
 } 
-       
+  
+*/     
 
   //2) Crear una función llamada get que tome como parámetros una URL,
   // un Método y un Callback para errores y para respuestas positivas.
@@ -115,3 +118,71 @@ promesa
   //BONUS
        
   //1) Refactorizar tu código anterior y usar solamente la API de Fetch para encadenar todo el pedido
+
+/*
+function handleChange(){
+  let promesa = new Promise(function(aceptar,rechazar){
+  resolver("https://jsonplaceholder.typicode.com/users/1",
+        (response)=>{
+          aceptar(response)
+        }, 
+        ()=>{
+          let text = "fallo el pedido de usuario"
+          rechazar(text)
+        } 
+      )
+  })
+
+promesa
+  .then(user => {
+    return new Promise(function(aceptar,rechazar){
+    resolver("https://jsonplaceholder.typicode.com/posts?userId=" + user.id,
+        (posts)=>{
+          aceptar(posts)
+        }, 
+        ()=>{
+          let text = "fallo la promesa de pedido de posts"
+          rechazar(text)
+        } 
+      )
+    })
+  })
+  .then(posts => {
+    return new Promise(function(aceptar,rechazar){
+    posts.forEach(post => {
+      resolver("https://jsonplaceholder.typicode.com/comments?postId=" + post.id,
+        (comentarios)=>{
+          aceptar(comentarios);
+        }, 
+        ()=>{
+            const text = "fallo la búsqueda de comentarios"
+            rechazar(text)
+        } 
+      )
+    })
+    })
+  })
+  .catch(valor => {
+    console.log(valor)
+  })
+
+}
+*/
+
+function traerUsuarios(){
+const promesa = fetch("https://jsonplaceholder.typicode.com/users");
+  promesa
+    .then(usuarios => usuarios.json())
+    
+    .then(usuarios => {
+        let fragmento = document.createDocumentFragment()
+        usuarios.forEach(user => {
+        let option = document.createElement('option')
+        option.value = user.id
+        option.innerText = user.name
+        fragmento.appendChild(option)
+        document.querySelector("select#usuario-select").appendChild(fragmento)
+        document.querySelector("select#usuario-select").addEventListener("change",handleChange)
+    })
+    })
+}
