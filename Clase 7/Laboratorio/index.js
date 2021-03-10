@@ -106,7 +106,7 @@ promesa
   })
 } 
   
-*/     
+    
 
   //2) Crear una función llamada get que tome como parámetros una URL,
   // un Método y un Callback para errores y para respuestas positivas.
@@ -119,55 +119,34 @@ promesa
        
   //1) Refactorizar tu código anterior y usar solamente la API de Fetch para encadenar todo el pedido
 
-/*
-function handleChange(){
-  let promesa = new Promise(function(aceptar,rechazar){
-  resolver("https://jsonplaceholder.typicode.com/users/1",
-        (response)=>{
-          aceptar(response)
-        }, 
-        ()=>{
-          let text = "fallo el pedido de usuario"
-          rechazar(text)
-        } 
-      )
-  })
+*/ 
 
+const promesa = fetch("https://jsonplaceholder.typicode.com/users/1")
+console.log(promesa)
 promesa
-  .then(user => {
-    return new Promise(function(aceptar,rechazar){
-    resolver("https://jsonplaceholder.typicode.com/posts?userId=" + user.id,
-        (posts)=>{
-          aceptar(posts)
-        }, 
-        ()=>{
-          let text = "fallo la promesa de pedido de posts"
-          rechazar(text)
+  .then(usuario => usuario.json())
+  .then(usuario => {
+    return fetch("https://jsonplaceholder.typicode.com/posts?userId=" + usuario.id)
+  })
+  .then(PromesaPosts => {return PromesaPosts.json()})
+  .then(posteos => 
+    {
+      let ArrayPromesasDeComentarios = []
+      posteos.forEach(post => 
+        {
+          const promesaComentario = fetch("https://jsonplaceholder.typicode.com/comments?postId=" + post.id)
+          ArrayPromesasDeComentarios.push(promesaComentario)
         } 
       )
-    })
+      return ArrayPromesasDeComentarios
+    }
+  )
+  .then(promesasDeComentarios => {
+    promesasDeComentarios.forEach(promesaComentario => 
+     {   
+      promesaComentario.then(response => console.log(response))
+     })
   })
-  .then(posts => {
-    return new Promise(function(aceptar,rechazar){
-    posts.forEach(post => {
-      resolver("https://jsonplaceholder.typicode.com/comments?postId=" + post.id,
-        (comentarios)=>{
-          aceptar(comentarios);
-        }, 
-        ()=>{
-            const text = "fallo la búsqueda de comentarios"
-            rechazar(text)
-        } 
-      )
-    })
-    })
-  })
-  .catch(valor => {
-    console.log(valor)
-  })
-
-}
-*/
 
 function traerUsuarios(){
 const promesa = fetch("https://jsonplaceholder.typicode.com/users");
