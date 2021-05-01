@@ -1,0 +1,12 @@
+{   "posts": [
+        {"id": 5, "userId": 30, "title": "json-server", "author": "typicode"}
+    ],
+    "comments": [
+        {"id": 1, "body": "some comment 1", "postId": 5},
+        {"id": 2, "body": "some comment 2", "postId": 5},
+        {"id": 3, "body": "some comment 3", "postId": 5}
+    ],
+    "users": [
+        {"id": 30,"name": "Juana"}
+    ]
+}

@@ -1,0 +1,6 @@
+instalar node js.
+
+Con control C detenemos el servicio json server.
+
+json-server --watch db.json  para iniciarlo.
+
