@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+       /* function persona() {
+            var p = {
+                nombre: null,
+                edad: null
+            }
+        return p;
+        }
+
+        var juan = persona("Juan", 20);
+        var maria = persona("Maria", 15);
+        */
+        //Si modificamos un objeto en un lugar se modifica en todos
+        //los lugares donde esten referenciados
+        //Usando la propiedad de destruccion
+        //funciona para que se puedan crear objetos a partir de una funcion sencilla
+        //estas funciones se conocen como fabrica de objetos
+
+        //Constructor new.
+
+        //En javascript no seguimos el paradigma clasico, sino el paradigma de prototipos
+
+        function Persona(nombre,edad){
+            this.nombre = nombre;
+            this.edad = edad;            
+        }
+        //El operador new crea un objeto nuevo y vacio
+        //Cada vez que usamos un new, la variable this debe ser un objeto vacio.
+
+        var juan = new Persona("Juan", 20);
+        var maria = new Persona("Maria", 14);
+
+        //this en este caso es un objeto nuevo y vacio, no hace falta retornar this
+        //ya que el operador new se encarga de ambas operaciones, por lo que solo
+        //declaramos las propiedades internas necesarias dentro de nuestro objeto y recibirla como parametro.
+
+        /*El operador new funciona de la siguiente manera
+            var a = {}
+            Persona.call(a)
+            return a
+        */
+
+    </script>
+</body>
+</html>

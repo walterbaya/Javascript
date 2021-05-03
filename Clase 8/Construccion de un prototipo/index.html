@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //Prototipos
+        /*Son un conjunto de normas que permiten orientar
+        la creacion de objetos
+        los prototipos son objetos*/
+        /*
+        Tres maneras distintas de crear objetos prototipo
+        Funciones constructoras
+        funcion Create
+        Literal o automatica
+        */
+
+        //Ya tiene un prototipo _proto_ 
+        //Como se puede ver en el navegador
+        let a = {
+
+        };
+
+        //Es automatico, ya que nunca nos preocupamos desde
+        //que prototipo extiende nuestro objeto
+
+        //Podemos generar un prototipo prototipo
+
+        let prototipo = {
+            saludo : function(){console.log("Hola")}
+        };
+
+        //Usamos ese objeto como prototipo del objeto b
+
+        //La funcion create sirve para crear un objeto
+        //totalmente nuevo y vacio, tal que su prototipo
+        //sera lo que le pasamos como parametro
+        let b = Object.create(prototipo);
+
+        //b.saludo() permite ejecutar la funcion que contiene 
+        //su prototipo
+
+
+
+        ////////////////////////////////////////////////////////
+
+        //PROPIEDADES DE UN OBJETOS
+
+        let a1 = {
+            x : 1
+        };
+
+        //a1 es un objeto que tiene un propiedad x que vale 1.
+
+        //podemos cambiarle el valor a la propiedad x haciendo a.x = 10 por ejemplo
+
+        //delete(a.x) permite borrar la propiedad
+
+        //Podemos ademas iterar las propiedades
+
+        //for(prop in a){console.log(prop)}
+
+        /*Podriamos querer usar a como prototipo de otro objeto
+        entonces queremos que la propiedad x se mantenga estatica
+        
+        cada objeto tiene cuatro propiedades de configuracion que podemos
+        evaluar para ver que permisos tiene
+        
+        value-writable-enumerable-configurable
+
+        estas configuraciones se pueden usar con object.create
+        
+        */
+
+        //no le damos ningun prototipo a w y le pasamos las propiedades que queremos
+        //dentro de este objeto.
+
+        let w = Object.create(null, {
+            x : {
+                //value su valor real
+                value : 1,
+                writable: false, //no admite escritura
+                enumerable: false, //no se puede iterar las propiedades de este objeto
+                configurable: false //nos dice si se pueden borrar las propiedades en este objeto
+                //Por defecto siempre todo es false.
+            }
+        })
+
+        //Si hacemos lo anterior, no se puede!!!
+    </script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //Funciones 
+        //Javascript intenta embeber todo dentro de un objeto
+        //Luego las funciones son objetos tambien.
+        
+        //function foo(){}
+
+        //Podriamos trabajarlas como si fueran un objeto
+        //foo.x = true
+        //le definimos un atributo
+
+        //Variadicas: no dependen de la cantidad de argumentos ni de la
+        //cantidad de parametros que le estamos pasando.
+        //foo(1,2,3,4,5,6) Funciona igual.
+
+        //Las funciones tienen ambito, scope y contexto - Generadoras de clases.
+        //Poder definir las clases para poder crear las instancias de los Objetos
+        //Las funciones en javascript son muy importantes
+
+        //new foo como generadora de nuevos objetos
+
+        //AMBITO O SCOPE EN FUNCIONES 
+
+        /*Podriamos definirlo como el alcance que tiene una funcion
+        para llegar a una variable determinada.
+        En javascript tenemos la similitud de que el ambito de los
+        demas lenguajes de programacion mas un lugar nuevo*/
+
+        //Variables globales
+        var a = 2;
+
+        function foo(c){
+            var b = 10;
+            console.log(a,b,c);
+        }
+
+        foo(30)
+        
+        /*Closure el espacio adicional de javascript*/
+        //cuando una funcion termina intenta limpiar todas las variables en su interior
+        
+        function externa(x,z){
+            return function interna(y){
+                console.log(y+x);
+                console.log(z);
+            };
+        }
+
+        //No puedo conocer el valor de x fuera de la funcion
+        //Para poder usar ese retorno necesitamos asignarselo a una variable
+        //Valdra una referencia a funcion interna resultado
+        var resultado = externa(50,"Que no pare, que no pare");
+
+        //x sigue estando no disponible a pesar de todo.
+    
+        console.dir(resultado)
+
+        //Vemos que en scope esta definido el closure, es el
+        //Espacio que se genera en una funcion que se genera a partir de otra funcion
+        //En el closure que es como un objeto se va guardando como en una lista todas las variables que estan en la funcion
+        //Contenedora utilizadas por dentro de la funcion interna
+    
+        //CONTEXTO DE UNA FUNCION:
+        /*Es una referencia al mismo objeto que contiene a esa funcion
+        y podemos acceder al mismo usando la palabra reservada this*/
+
+        function foo(){
+            console.log(this)
+        }
+    
+        //Nos devolvera window, ya que todo por defecto es de window.
+        //window.foo() window es quien contiene a la funcion foo.
+
+        var persona = {
+            nombre: "Juan",
+            saludo: function(){
+                console.log(this)
+            }
+        }
+
+        persona.saludo();
+        
+        //Nuestra variable reservada this puee ir mutando
+
+        function ctx(a,b){
+            console.log(this,a,b)
+        }
+
+        //normal - bind- call - apply - new
+
+        //La forma normal es ejecutando la misma funcion
+
+        ctx();  //tomando que viene de window
+
+        //bind y las demas son metodos del prototipo de la funcion
+
+        ctx.apply(); //nos devuelve window tambien.
+        ctx.call() //tambien lo mismo...
+
+        //apply y call permiten pasar como primer parametro el objeto que queremos que venga
+        //a la variable this.
+
+        ctx.apply({x:1});
+
+        //El contexto cambio, lo mismo pasa con call
+        //La diferencia es la forma en la que pasan los parametros 
+    
+        //En apply le pasamos un array como segundo parametro y llenara el a,b
+
+        ctx.apply({x:1}, [1,2]);
+
+        //Call pasa los parametros por separado
+        
+        ctx.call({y:1}, 1,2);
+    </script>
+</body>
+</html>
