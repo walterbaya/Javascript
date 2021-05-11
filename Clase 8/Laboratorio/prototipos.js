@@ -46,19 +46,31 @@ conteniendo todos los métodos de un nuevo prototipo, la idea parece ser agregar
 this ya tenia funciones.
 */
 
+/*Ejercicio 5
+
+propiedades que podemos
+usar en las instancias que creemos con este prototipo.
+Por ejemplo si creo un usuario tiene ninguna propiedad
+si yo le agrego propiedades a usuario, luego los objetos que defina a partir de usuario van a tener las mismas
+usuario.extender(metodos,propiedades) le agrega propiedades y metodos a usuario.
+
+*/
+/*
 let empleado = {
-    cobrarSalario: function(){
+    cobrarSalario: function () {
         console.log("Se cobro con exito, el salario");
     },
-    empezarAtrabajar: function(){
+    empezarAtrabajar: function () {
         console.log("Se cobro con exito, el salario");
     }
 }
 
-function metodos(prototipo){
+function metodos(prototipo) {
     let obj = {};
-    for(m in prototipo){
-        Object.defineProperty(obj, m, {value: prototipo[m]});
+    for (m in prototipo) {
+        Object.defineProperty(obj, m, {
+            value: prototipo[m]
+        });
     }
     return obj;
 }
@@ -66,35 +78,49 @@ function metodos(prototipo){
 
 let m1 = metodos(empleado);
 
-let usuario = {
-    crear: function(){
-        //Objeto llamado nuevo, vacio con prototipo this, o sea el contexto de la funcion.
-        let nuevo = Object.create(this);
-        return nuevo;
+let usuario = {};
+
+Object.defineProperties(usuario, {
+    'getInformation': {
+       value: function () {}
     },
-    extender: function(metodos){
-        let nuevo = Object.create(this);
-        //es decir va a tener todos los metodos que tiene un usuario y quiero extenderlo con mas.
-        propiedades = Object.getOwnPropertyNames(metodos);
-        for(propiedad in propiedades){
-            Object.defineProperty(this, propiedades[propiedad], {value: metodos[propiedades[propiedad]]});       
-        }   
-        return nuevo;
+    'create': {
+        value: function () {
+            //Objeto llamado nuevo, vacio con prototipo this, o sea el contexto de la funcion.
+            let nuevo = Object.create(this);
+            return nuevo;
+        }
     },
-    darInformacion: function(){}
-}
+    'extends': {
+        value: function (metodos, property) {
+            let nuevo = Object.create(this);
+            //es decir va a tener todos los metodos que tiene un usuario y quiero extenderlo con mas.
+            let propiedades = Object.getOwnPropertyNames(metodos);
+            for (propiedad in propiedades) {
+                Object.defineProperty(nuevo, propiedades[propiedad], {
+                    value: metodos[propiedades[propiedad]]
+                });
+            }
+            for (var i = 0; i < property.length; i++) {
+                Object.defineProperty(nuevo, property[i] ,{
+                    value : null
+                });
+            }
+            return nuevo;
+        }
+    }
+});
 
-let martha = Object.create(usuario);
-let jose = Object.create(usuario);
+//Extends permite crear una instancia que tiene como prototipo a this
+//y ademas le agregamos nuevas funcionalidades las cuales tambien son todas no enumerables, no configurables...etc
+let user = usuario.extends(m1, ["Altura", "Peso"]);
+//De esta forma user es otro prototipo
 
 
 
-/*Ejercicio 5
+*/
 
-Admitir un parámetro mas en el método extends llamado propiedades. Este deberá ser un Array
-y puede contener únicamente String que van a ser el nombre de las propiedades que podemos
-usar en las instancias que creemos usando este prototipo.
-
+/*
 Ejercicio 6
 
 Admitir un parámetro en el método create que sea de tipo Object. El mismo únicamente puede
@@ -104,21 +130,65 @@ subproto.create({"prop2":"test"}) pero si subproto.create({"prop1":"test"}) porq
 definida como propiedad en su prototipo.
 */
 
-/*
-let usuario = {
-    crear: function(){
-        //Objeto llamado nuevo, vacio con prototipo this, o sea el contexto de la funcion.
-        let nuevo = Object.create(this);
-        return nuevo;
+let empleado = {
+    cobrarSalario: function () {
+        console.log("Se cobro con exito, el salario");
     },
-    extender: function(metodos){
-        
-        let nuevo = Object.create(this);
-        return nuevo;
-    },
-    darInformacion: function(){}
+    empezarAtrabajar: function () {
+        console.log("Se cobro con exito, el salario");
+    }
 }
 
-let martha = Object.create(usuario);
-let jose = Object.create(usuario);
-*/
+function metodos(prototipo) {
+    let obj = {};
+    for (m in prototipo) {
+        Object.defineProperty(obj, m, {
+            value: prototipo[m]
+        });
+    }
+    return obj;
+}
+
+
+let m1 = metodos(empleado);
+
+let usuario = {};
+
+Object.defineProperties(usuario, {
+    'getInformation': {
+       value: function () {}
+    },
+    'create': {
+        value: function (obj) {
+            let nuevo = Object.create(this);
+            //es decir va a tener todos los metodos que tiene un usuario y quiero extenderlo con mas.
+            //Object.assign(nuevo, obj);
+            return nuevo;
+        }
+    },
+    'extends': {
+        value: function (metodos, property) {
+            let nuevo = Object.create(this);
+            //es decir va a tener todos los metodos que tiene un usuario y quiero extenderlo con mas.
+            let propiedades = Object.getOwnPropertyNames(metodos);
+            for (propiedad in propiedades) {
+                Object.defineProperty(nuevo, propiedades[propiedad], {
+                    value: metodos[propiedades[propiedad]]
+                });
+            }
+            for (var i = 0; i < property.length; i++) {
+                Object.defineProperty(nuevo, property[i] ,{
+                    value : null,
+                    writable: true
+                });
+            }
+            return nuevo;
+        }
+    }
+});
+
+
+let user = usuario.extends(m1 ,["Nombre", "Apellido"]);
+console.log(user);
+let user1 = user.create({"Nombre": "Joselindo", "Apellido": "Fernandez"});
+console.log(user1);
