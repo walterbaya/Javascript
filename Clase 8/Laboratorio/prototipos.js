@@ -156,13 +156,24 @@ let usuario = {};
 
 Object.defineProperties(usuario, {
     'getInformation': {
-       value: function () {}
+        value: function () {}
     },
     'create': {
         value: function (obj) {
             let nuevo = Object.create(this);
-            //es decir va a tener todos los metodos que tiene un usuario y quiero extenderlo con mas.
-            //Object.assign(nuevo, obj);
+            let propertiesObj = Object.getOwnPropertyNames(obj);
+            let propertiesNuevo = Object.getOwnPropertyNames(this);
+            for (var i = 0; i < propertiesObj.length; i++) {
+                if (propertiesNuevo.includes(propertiesObj[i])) {
+                        Object.defineProperty(nuevo, propertiesObj[i], 
+                        { 
+                            value: obj[propertiesObj[i]],
+                            writable: true,
+                            enumerable: true,
+                            configurable: false
+                        });
+                    }
+            }
             return nuevo;
         }
     },
@@ -177,9 +188,7 @@ Object.defineProperties(usuario, {
                 });
             }
             for (var i = 0; i < property.length; i++) {
-                Object.defineProperty(nuevo, property[i] ,{
-                    value : null,
-                    writable: true
+                Object.defineProperty(nuevo, property[i], {
                 });
             }
             return nuevo;
@@ -188,7 +197,46 @@ Object.defineProperties(usuario, {
 });
 
 
-let user = usuario.extends(m1 ,["Nombre", "Apellido"]);
+let user = usuario.extends(m1, ["Nombre", "Apellido"]);
 console.log(user);
-let user1 = user.create({"Nombre": "Joselindo", "Apellido": "Fernandez"});
-console.log(user1);
+let user1 = user.create({
+    "Nombre": "Joselindo",
+    "Apellido": "Fernandez",
+});
+
+
+/**Ejercicio 1
+Crear prototipos para usuarios del tipo Admin , Regular y Guest que contengan propiedades
+como :
+-USUARIO :
+ Métodos
+ -create : De los puntos anteriores pero con los nuevos métodos y propiedades. La
+propiedad status debe ser False por defecto.
+ -extends : De los puntos anteriores pero con los nuevos métodos y propiedades
+ -setInfo : Actualiza la información del usuario solo si es admin
+ -getInfo : Devuelve la información del usuario
+ Props
+ -username : String
+ -email : String
+ -password : String
+ -status : Boolean - Determina si está activo o no
+ -ADMIN :
+ Métodos
+ -registerUser : Igual a create pero ya le asigna un status True
+ -activateUser : Le puede activar el status a cualquier usuario.
+ -removesUser : Le cancela el status a cualquier usuario.
+ Props
+ -adminId : Number
+ -REGULAR :
+ Métodos
+ -saludar : Usa su nombre de usuario para mostrar un mensaje por consola
+ -updateInfo : Cambia la información válida para un usuario regular como nombre y
+apellido
+ Props
+ -nombre : String
+ -apellido : String
+ -GUEST :
+ Métodos
+ -ninguno : Tiene todos los demás métodos restringidos
+ Props
+ -guestId : Number */
