@@ -130,6 +130,7 @@ subproto.create({"prop2":"test"}) pero si subproto.create({"prop1":"test"}) porq
 definida como propiedad en su prototipo.
 */
 
+/*
 let empleado = {
     cobrarSalario: function () {
         console.log("Se cobro con exito, el salario");
@@ -203,23 +204,18 @@ let user1 = user.create({
     "Nombre": "Joselindo",
     "Apellido": "Fernandez",
 });
-
+*/
 
 /**Ejercicio 1
 Crear prototipos para usuarios del tipo Admin , Regular y Guest que contengan propiedades
 como :
 -USUARIO :
  Métodos
- -create : De los puntos anteriores pero con los nuevos métodos y propiedades. La
-propiedad status debe ser False por defecto.
- -extends : De los puntos anteriores pero con los nuevos métodos y propiedades
  -setInfo : Actualiza la información del usuario solo si es admin
  -getInfo : Devuelve la información del usuario
- Props
- -username : String
- -email : String
- -password : String
- -status : Boolean - Determina si está activo o no
+ */
+
+/*
  -ADMIN :
  Métodos
  -registerUser : Igual a create pero ya le asigna un status True
