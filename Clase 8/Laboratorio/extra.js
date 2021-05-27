@@ -38,6 +38,9 @@ let USUARIO = {
         for (var i = 0; i < property.length; i++) {
             Object.defineProperty(nuevo, property[i], {
                 value: undefined,
+                enumerable: true,
+                configurable: true,
+                writable: true
             });
         }
         return nuevo;
@@ -68,34 +71,43 @@ let usr = USUARIO.create({
 /*
  -ADMIN :
  Métodos
+ -registerUser : Igual a create pero ya le asigna un status True
  -activateUser : Le puede activar el status a cualquier usuario.
  -removesUser : Le cancela el status a cualquier usuario.
  Props
  -adminId : Number
 */
 
+//ADMIN es un objeto que extiene de usuario con algunas propiedades definidas
+//register user crea un ADMIN o sea un objeto que tiene status true.
+//su prototipo debe ser ADMIN y el prototipo de ADMIN es USUARIO
+
 let ADMIN = USUARIO.extends({
-        //-registerUser : Igual a create pero ya le asigna un status True
         'registerUser': function (obj) {
-            obj.status = true;
-            return USUARIO.create(obj);
+            //ADMIN debe ser el prototipo
+            let nuevo = Object.create(this);
+            let propertiesObj = Object.getOwnPropertyNames(obj);
+            let propertiesNuevo = Object.getOwnPropertyNames(this);
+            let propertiesPrototipe = Object.getOwnPropertyNames(this.__proto__);
+            propertiesNuevo = propertiesNuevo.concat(propertiesPrototipe); 
+            for(var i = 0; i < propertiesObj.length; i++) {
+                if (propertiesNuevo.includes(propertiesObj[i])) {
+                    nuevo[propertiesObj[i]] = obj[propertiesObj[i]];
+                }
+            }
+            nuevo.status = true;
+            return nuevo;
         },
         'activateUser': function (usr) {
-            usr.Info = {
-                'status': true
-            }
+            usr.status = true;
         },
         'removesUser': function (usr) {
-            usr.Info = {
-                'status': false
-            }
+            usr.status = false;
         }
     },
     ['adminId']);
 
-let administrador = ADMIN({
-    
-});
+let administrador = ADMIN.registerUser({username: "Joselindo", adminId: 25});
 
 /*
  -REGULAR :
@@ -108,6 +120,19 @@ let administrador = ADMIN({
 */
 
 let REGULAR = USUARIO.extends({
+    'create': function(obj){
+        let nuevo = Object.create(this);
+        let propertiesObj = Object.getOwnPropertyNames(obj);
+        let propertiesNuevo = Object.getOwnPropertyNames(this);
+        let propertiesPrototipe = Object.getOwnPropertyNames(this.__proto__);
+        propertiesNuevo = propertiesNuevo.concat(propertiesPrototipe); 
+        for(var i = 0; i < propertiesObj.length; i++) {
+            if (propertiesNuevo.includes(propertiesObj[i])) {
+                nuevo[propertiesObj[i]] = obj[propertiesObj[i]];
+            }
+        }
+        return nuevo;        
+    },
     'saludar': function () {
         console.log("Bienvenido: " + this.username);
     },
@@ -123,8 +148,6 @@ let REGULAR = USUARIO.extends({
 let nuevo = REGULAR.create({
     'username': 'regu'
 });
-/* -GUEST :
- Métodos
- -ninguno : Tiene todos los demás métodos restringidos
- Props
- -guestId : Number */
+
+GUEST = USUARIO.extends({}, ['guestId']);
+ 
