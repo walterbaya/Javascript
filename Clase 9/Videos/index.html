@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Index</title>
+	<meta charset="utf-8">
+</head>
+<body>
+	<script type="text/javascript">
+		/*
+		function Persona(nombre, edad){
+			this.nombre = nombre;
+			this.edad = edad;
+		}
+
+		//En general se usa el prototype para definir los metodos que van a formar parte de todos las instancias creadas a partir de la clase.
+
+		Persona.prototype.saludo = function(){
+			console.log(this.nombre + " " + this.edad);
+		}
+
+		var ana = new Persona("ana", 15);
+		var juan = new Persona("juan", 20);
+
+		juan.saludo();
+		ana.saludo();	
+
+		
+		class Empleado extends Persona{
+			constructor(sueldo, nombre, edad){
+				//es obligatorio definir las propiedades de la clase superior
+				super(nombre, edad);
+				this.sueldo = sueldo;
+			}
+			trabajar(){
+				console.log("trabajando");
+			}
+		}
+
+		let empleado = new Empleado(45, "David", "Ramirez");
+		*/
+		/*
+		function Empleado(sueldo, nombre, edad){
+			this.sueldo = sueldo;
+			//Composicion de clases
+			//Llamo la funcion persona y donde diga this en persona se pondra el empleado
+			//Es decir que al empleado le va a poner nombre y edad.
+			Persona.call(this, nombre, edad);
+		}
+	
+		var juan = new Empleado(1, "Juan", 20);
+		*/
+
+		//////Ejemplo propio
+
+/*		
+		function carreraUniversitaria(nombre){
+			this.nombre = nombre;
+		}
+
+		carreraUniversitaria.prototype.darNombre = function () {
+			console.log("El nombre de la carrera es: " + this.nombre);
+		}
+
+		//carreraUniversitaria.prototype.darNombre = darNombre;
+		
+		function carreraTerciaria(nombre, costo){
+			this.costo = costo;
+			carreraUniversitaria.call(this, nombre);
+		}
+
+		//Crea un objeto que tendra a carreraUniversitaria.prototype como prototipo.
+		//Object.create me da un objeto con prototipo carreraUniversitaria.prototype
+
+		Con esto la carreraTerciaria tiene lo metodos de la carrera universitaria, su prototipo sera el
+		de la carreraUniversitaria, es decir heredamos las funciones y dentro del mismo podemos agregar otras propias de la carreraTerciria
+		carreraTerciaria.prototype = Object.create(carreraUniversitaria.prototype);
+		carreraTerciaria.prototype.elCostoEs = function(){
+			console.log("El costo es: " + this.costo);
+		}
+		var tecnicaturaEnProgramacion = new carreraTerciaria("Tecnicatura universitaria en programaciòn", 5000);
+		tecnicaturaEnProgramacion.darNombre();
+	*/
+
+	//MODELO DE PROTOTIPOS
+
+	/*var persona = {
+		saludo: function(){
+			console.log("Hola");
+		}
+	}
+
+	var maria = Object.create(persona);
+	var pedro = Object.create(persona);
+
+
+	var empleado = Object.create(persona, {	
+		"trabajar": {
+			    value: function(){
+					console.log("Trabajando...");
+				}
+			}	
+	});
+	var juan = Object.create(empleado);
+	*/
+ 	
+ 	//Classes
+ 	//siguen siendo una funcion, un tipo de funcion especial que comparado con las demas funciones la unica diferencia es el hoisting, es decir importa que primero la clase este declarada y recien ahi puede utilizarse
+ 	
+ 	/*let empleado = new Empleados("Juan");
+ 	function Empleados(nombre) {
+ 		this.nombre = nombre;
+ 	}
+
+
+ 	class Personas {
+ 		constructor(nombre){
+ 			this.nombre = nombre;
+ 		}
+ 	}
+
+ 	var maria = new Personas("maria");
+	*/
+
+	/*
+	class Persona {
+		constructor(nombre, edad){
+			this.edad = edad;
+			this.nombre = nombre;
+		}
+
+		saludo(){
+			console.log("Hola");
+		}
+
+		//Metodo de clase
+		//solo se puede acceder accediendo a la clase y no a partir de alguna instancia de la misma.
+		static metodoDeClase(){
+			console.log("Metodo de clase");
+		}
+	}
+
+	let persona_1 = new Persona("Persona 1", 20);
+	let persona_2 = new Persona("Persona 2", 15);
+
+
+	function Persona(nombre, edad){
+		this.nombre = nombre;
+		this.edad = edad;
+	}
+
+	Persona.prototype.saludo = function(){
+		console.log("Hola");
+	}
+
+	function Empleado(sueldo){
+		this.sueldo = sueldo;
+	}
+
+	//Crea un objeto vacio dentro del prototipo cuyo prototipo tendra las cosas que definimos en persona.
+
+
+	Empleado.prototype = Object.create(Persona.prototype);
+
+	var juan = new Empleado(1);
+
+	//Se consigue de esta forma crear variables privadas
+
+	//IFEE = Inmediatly Involked Function Expression
+
+	(function(numero){
+		//todo mi programa.
+		console.log(numero);
+		var privado = true;
+	})(1)
+
+	//Como ejecutar una funcion anonima.
+	*/
+
+	//Modo Estricto
+
+	/*Activar un modo tal que deben cumplirse determinadas reglas a la hora de escribir en javascript.
+	Se necesita utilizar para ponernos de acuerdo en como escribir nuestro codigo.
+	*/
+	"use strict"
+
+	//a = 1; //tira error
+	let a = 1;
+
+	let obj_dinamico = {x:1}
+	let obj_estatico = Object.create(null, {
+		x: {
+			value: 1
+		}
+	})
+	//no es modificable x.
+	obj_estatico.x = 10;
+
+	</script>
+</body>
+</html>
