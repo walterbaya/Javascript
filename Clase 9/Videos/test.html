@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<script type="text/javascript">
+		( function (window){
+			let personas = []
+			class Persona {
+			constructor (nombre,edad){
+			personas.push(nombre)
+			this .nombre = nombre
+			this .edad = edad
+			this .getNombre = function (){
+			return nombre;
+			}
+			}
+			getPersonas(){
+			return personas;
+			}
+			}
+			window .Persona = Persona
+			})( window )
+	</script>
+</body>
+</html>
