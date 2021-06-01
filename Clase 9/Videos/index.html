@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        
+        //El prototipo asignable a los objetos creables tambien es manipulable.
+        function Persona(nombre){
+            this.nombre = nombre;
+        }
+        //Podemos crear una plantilla a partir de la cual los objetos
+        //creados se veran de una manera similar.
+
+        //Persona.prototype.x = true;
+        Persona.prototype.edad = 20;
+        var ana = new Persona("ana");
+    
+    </script>
+</body>
+</html>
