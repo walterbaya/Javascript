@@ -1,0 +1,144 @@
+Sirve para resolver el acoplamiento este patrón.
+Cada vez que envio el formulario quiero que se utilice 
+para mostrarlo dentro del listado.
+La idea es no referenciar objetos que no tienen porque
+ser parte del codigo de otra clase.
+
+Intentar no acoplar clases, no mezclar clases.
+
+Para solucionar esto utilizamos un event Bus 
+que es el unico canal de comunicacion.
+
+Podriamos usar un singleton para eventBus para
+evitar que el mismo se duplique.
+
+
+
+PWA.
+
+Estando offline,  hay aplicaciones web que pueden seguir funcionando
+ejemplo offline Wikipedia
+
+se pueden instalar como si fueran programas y al salir del navegador pasamos a tenerla
+disponible como una aplicacion instalada.
+Se construye con javascript.
+
+Se pueden desinstalar una vez instaladas.
+
+De manera online podemos por ejemplo enviar a la base de datos
+algunos valores, y  si perdemos la conexion, por ejemplo
+la tenemos en un smartphone y cuando pulsamos enviar, de Todasmaneras
+la aplicacion va guardando todas las entradas que le doy
+y cuando retomo internet se envian automaticamente al servidor.
+
+Cuando perdemos la conexion necesitamos seguir teniendo la aplicacion
+levantada.
+ 
+
+Almaceno los datos de forma local, usando Cookies por ejemplo.
+la comunicacion es una comunicacion sin estado, por lo tanto el servidor
+no conoce quienes son los clientes que hacen peticiones.
+La proxima que les preguntemos es como si nos conociera otra vez de nuevo.
+
+LOCAL STORAGE  
+
+Permite guardar la informacion en una base de datos interna que tienen los navegadores
+no se guarda en archivos, la base de datos esta encriptada, de manera que solo podemos acceder a ella
+cuando estamos navegando explicitamente en ese dominio.
+
+Si entra alguien a la maquina no hay forma de robar la informacion y si se robara la base de datos solamente lo puede 
+desencriptar el navegador, a diferencia de las cookies.
+
+Tiene 10 mb, de almacenamiento, se pueden almacenar 5 mb mas y asi.
+
+Se puede guardar texto aqui.
+
+El local storage no se borra solo NUNCA.
+
+otra manera de borrarse es utilizando algun programa de limpieza
+o hacer borrado del navegador.
+
+EL SESSION STORAGE
+es lo mismo que el local storage 
+Si cierro todas las pestañas del dominio, se borrara toda la informacion en el.
+todo lo que es session storage se limpia al finalizar la session.
+
+BASE DE DATOS INDEXADA.
+
+La idea es la de poder trabajar con una base NOSQL. 
+Significa Not Only SQL, la idea de estas bases de datos es que
+en vez de guardar una estructura fija, poder guardar elementos con variabilidad
+de campos. 
+
+Ejemplo una aplicacion.
+
+dexie.js es una base de datos indexada.
+
+Normalmente se utiliza la base de datos indexada, o noSQL  funciona mejor
+en el mundo web y se utiliza mas.
+
+no asi las bases tipo SQL.
+
+
+FIREBASE
+
+Es gratuito y tiene un limite de 2GB de almacenamiento.
+
+Podemos tener una base de datos NOSQL.
+
+Añadimos una base de datos.
+
+Podemos crear una conexion nueva.
+
+Configuramos la base de datos desde javascript.
+db.collection
+
+
+
+PAGINA BUENA PARA SABER QUE PODEMOS HACER CON EL CLIENTE USANDO javascript
+
+what can do web today.
+
+tiene ejemplos de como hacer eso que queremos con javascript. 
+
+Firebase funciona offline, cuando recuperemos el internet se encarga de enviar toda la info.
+
+se pueden agregar registros y luego eliminarlos.
+
+En authentication podemos poner las autenticaciones para entrar
+desde facebook.
+
+Podemos crear un login tal que se loguea a partir de facebook
+o a partir de google o de otro.
+
+Firebase es un backend ya hecho.
+
+El backend ya esta resuelto por firebase.
+
+
+NODE JS
+
+Podemos instalar paquetes npm.
+uno de los paquetes utilizables es webpack.
+
+paquete que tiene toda la aplicacion ya modulada con dependencias. Podríamos
+
+con webpack vos le das un solo archivo de javascript y el genera todo el codigo para que funcione de manera
+rapida y es compatabile con todos los anavegadores, sin preocuparnos por la compatibilidad.
+el codigo estara ofuscado, es no visible por el usuario.
+
+todo el codigo debe estar dentro de una carpeta src. 
+y nuestro codigo principal debe estar en un index.js  
+
+mediante imports de javascript 6.
+
+los modulos de js6 tienen funciones y con la propiedad de que las privadas
+no tienen export delante, las que tienen export delante pueden ser utilizadas por el programa principal.
+
+funciones default las podemos llamar como nosotros queramos. 
+y se pueden llamar facilmente luego desde el index.js
+
+si ponemos el punto se busca dentro de src, sino lo pongo 
+podemos buscar dentro de las librerias de npm.
+
+npm install busca dentro de la carpeta un package json e instala las librerias que son dependencias.
